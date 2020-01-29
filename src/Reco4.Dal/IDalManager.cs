@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Reco4.Dal {
-  public interface IDalManager {
+  public interface IDalManager : IDisposable {
     T GetProvider<T>() where T : class;
   }
 }
