@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Reco4.Dal {
-  public interface IRoadmapGroup {
+  public interface IRoadmapGroupDal {
     List<RoadmapGroupDto> Fetch();
     RoadmapGroupDto Fetch(int id);
     RoadmapGroupDto Fetch(string filter);

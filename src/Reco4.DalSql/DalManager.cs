@@ -21,8 +21,6 @@ namespace Reco4.DalSql
       }
     }
 
-    public void Dispose() {
-      throw new NotImplementedException();
-    }
+    public void Dispose() { }
   }
 }

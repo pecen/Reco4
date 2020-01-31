@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.DalSql", "Reco4.DalSq
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.Library", "Reco4.Library\Reco4.Library.csproj", "{46748734-1550-4F0E-A820-139D328FDF9D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.TestConsole", "Reco4.TestConsole\Reco4.TestConsole.csproj", "{4FA7458C-9E1B-48E8-8D71-7485E1AD3792}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{46748734-1550-4F0E-A820-139D328FDF9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46748734-1550-4F0E-A820-139D328FDF9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46748734-1550-4F0E-A820-139D328FDF9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FA7458C-9E1B-48E8-8D71-7485E1AD3792}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FA7458C-9E1B-48E8-8D71-7485E1AD3792}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FA7458C-9E1B-48E8-8D71-7485E1AD3792}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FA7458C-9E1B-48E8-8D71-7485E1AD3792}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

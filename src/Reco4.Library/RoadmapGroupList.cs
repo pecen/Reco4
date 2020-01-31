@@ -38,7 +38,7 @@ namespace Reco4.Library {
       IsReadOnly = false;
 
       using (var dalManager = DalFactory.GetManager()) {
-        IRoadmapGroup dal = dalManager.GetProvider<IRoadmapGroup>();
+        IRoadmapGroupDal dal = dalManager.GetProvider<IRoadmapGroupDal>();
         IList<RoadmapGroupDto> data = dal.Fetch();
 
         if (data != null) {

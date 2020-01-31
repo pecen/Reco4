@@ -50,7 +50,7 @@
     <Compile Include="Enum\ConvertToVehicleInputStatus.cs" />
     <Compile Include="Enum\ValidationStatus.cs" />
     <Compile Include="IDalManager.cs" />
-    <Compile Include="IRoadmapGroup.cs" />
+    <Compile Include="IRoadmapGroupDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
