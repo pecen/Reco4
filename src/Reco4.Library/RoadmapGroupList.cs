@@ -24,22 +24,29 @@ namespace Reco4.Library {
 
     #region Data Access
 
-    private void Child_Create() {
-      // Do initialization here when creating the object.
-    }
-
+    [Fetch]
     private void DataPortal_Fetch() {
       DataPortal_Fetch(null);
     }
 
-    private void DataPortal_Fetch(string pdNumber) {
+    [Fetch]
+    protected override void DataPortal_Fetch(object criteria) {
       var rlce = RaiseListChangedEvents;
       RaiseListChangedEvents = false;
       IsReadOnly = false;
 
       using (var dalManager = DalFactory.GetManager()) {
         IRoadmapGroupDal dal = dalManager.GetProvider<IRoadmapGroupDal>();
-        IList<RoadmapGroupDto> data = dal.Fetch();
+
+        IList<RoadmapGroupDto> data = null;
+        var filter = criteria as string;
+
+        if (string.IsNullOrEmpty(filter)) {
+          data = dal.Fetch();
+        }
+        else {
+          data = dal.Fetch(filter);
+        }
 
         if (data != null) {
           foreach (var item in data) {

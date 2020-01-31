@@ -9,7 +9,7 @@ namespace Reco4.Dal {
   public interface IRoadmapGroupDal {
     List<RoadmapGroupDto> Fetch();
     RoadmapGroupDto Fetch(int id);
-    RoadmapGroupDto Fetch(string filter);
+    List<RoadmapGroupDto> Fetch(string filter);
     void Insert(RoadmapGroupDto data);
     void Update(RoadmapGroupDto data);
     void Delete(int id);
