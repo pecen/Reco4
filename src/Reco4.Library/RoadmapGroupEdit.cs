@@ -1,5 +1,6 @@
 ﻿using Csla;
 using Reco4.Dal;
+using Reco4.Dal.Dto;
 using Reco4.Dal.Enum;
 using System;
 using System.Collections.Generic;
@@ -117,6 +118,29 @@ namespace Reco4.Library {
             ValidationStatusValue = data.ValidationStatusValue;
             ConvertToVehicleInputStatusValue = data.ConvertToVehicleInputStatusValue;
           }
+        }
+      }
+    }
+
+    [Insert]
+    protected override void DataPortal_Insert() {
+      using (var ctx = DalFactory.GetManager()) {
+        var dal = ctx.GetProvider<Dal.IRoadmapGroupDal>();
+        using (BypassPropertyChecks) {
+          var item = new RoadmapGroupDto {
+            OwnerSss = OwnerSss,
+            RoadmapName = RoadmapName,
+            Protected = Protected,
+            CreationTime = CreationTime,
+            StartYear = StartYear,
+            EndYear = EndYear,
+            Xml = Xml,
+            ValidationStatusValue = ValidationStatusValue,
+            ConvertToVehicleInputStatusValue = ConvertToVehicleInputStatusValue
+          };
+          dal.Insert(item);
+
+          RoadmapGroupId = item.RoadmapGroupId;
         }
       }
     }

@@ -1,6 +1,8 @@
-﻿using Reco4.Library;
+﻿using Microsoft.Win32;
+using Reco4.Library;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,10 +22,14 @@ namespace Reco4.TestConsole {
             case '1': GetRoadmapGroups(); break;
             case '2': GetRoadmapGroup(); break;
             case '3': SearchRoadmapGroups(); break;
+            case '4': CreateRoadmapGroup(); break;
             case '0': WriteLine(); return;
 
             default: ShowMenu(); break;
           }
+
+          //WriteLine("\nPress key to continue...");
+          //ReadKey();
         }
         catch (Exception ex) {
           WriteLine();
@@ -32,10 +38,10 @@ namespace Reco4.TestConsole {
             WriteLine(ex.Message);
             ex = ex.InnerException;
           }
-          WriteLine();
-          WriteLine("Press <ENTER> to return to menu.");
-          ReadLine();
         }
+        WriteLine();
+        WriteLine("Press <ENTER> to return to menu.");
+        ReadLine();
       }
     }
 
@@ -50,7 +56,7 @@ namespace Reco4.TestConsole {
       WriteLine(" 1) Get Roadmap Groups.");
       WriteLine(" 2) Get specific Roadmap Group.");
       WriteLine(" 3) Search Roadmap Groups on Name.");
-      WriteLine(" 4) Run DecryptionLambdaService.");
+      WriteLine(" 4) Create a new Roadmap Group");
       WriteLine(" 0) Exit");
 
       WriteLine("");
@@ -70,8 +76,8 @@ namespace Reco4.TestConsole {
         WriteLine($"Roadmap Group {item.RoadmapGroupId}: {item.RoadmapName}");
       }
 
-      WriteLine("\nPress key to continue...");
-      ReadKey();
+      //WriteLine("\nPress key to continue...");
+      //ReadKey();
     }
 
     private static void SearchRoadmapGroups() {
@@ -96,8 +102,8 @@ namespace Reco4.TestConsole {
 
       WriteLine($"End time: {DateTime.Now}");
 
-      WriteLine("\nPress key to continue...");
-      ReadKey();
+      //WriteLine("\nPress key to continue...");
+      //ReadKey();
     }
 
     private static void GetRoadmapGroups() {
@@ -120,8 +126,59 @@ namespace Reco4.TestConsole {
 
       WriteLine($"End time: {DateTime.Now}");
 
-      WriteLine("\nPress key to continue...");
-      ReadKey();
+      //WriteLine("\nPress key to continue...");
+      //ReadKey();
+    }
+
+    private static void CreateRoadmapGroup() {
+      WriteLine("Enter a name for the Roadmap");
+      var name = ReadLine();
+      WriteLine("Enter start year: ");
+      var startYear = int.Parse(ReadLine());
+      WriteLine("Enter end year: ");
+      var endYear = int.Parse(ReadLine());
+
+      var xmlStream = GetFileDialog();
+
+      if (xmlStream == null) {
+        WriteLine("Action was cancelled");
+
+        return;
+      }
+
+      var roadmap = RoadmapGroupEdit.CreateRoadmapGroup();
+
+      roadmap.RoadmapName = name;
+      roadmap.CreationTime = DateTime.Now;
+      roadmap.StartYear = startYear;
+      roadmap.EndYear = endYear;
+      roadmap.Xml = GetXml(xmlStream);
+
+      roadmap = roadmap.Save();
+
+      WriteLine("Roadmap created successfully!!");
+    }
+
+    private static Stream GetFileDialog() {
+      OpenFileDialog openFileDialog = new OpenFileDialog {
+        InitialDirectory = Environment.CurrentDirectory,
+        Filter = "Xml files (*.xml)|*.xml|All files (*.*)|*.*",
+        FilterIndex = 1,
+        RestoreDirectory = true
+      };
+
+      if ((bool)openFileDialog.ShowDialog()) {
+        //Read the contents of the file into a stream
+        return openFileDialog.OpenFile();
+      }
+
+      return null;
+    }
+
+    private static string GetXml(Stream xmlStream) {
+      using (StreamReader reader = new StreamReader(xmlStream)) {
+        return reader.ReadToEnd();
+      }
     }
   }
 }

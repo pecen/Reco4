@@ -130,7 +130,32 @@ namespace Reco4.DalSql {
     }
 
     public void Insert(RoadmapGroupDto data) {
-      throw new NotImplementedException();
+      using (var ctx = ConnectionManager<SqlConnection>.GetManager(_dbName)) {
+        using (var cm = ctx.Connection.CreateCommand()) {
+          cm.CommandType = CommandType.Text;
+
+          cm.CommandText = "INSERT INTO RoadmapGroups (OwnerSss, RoadmapName, Protected, CreationTime, StartYear, " +
+            "EndYear, XML, Validation_Status, ConvertToVehicleInput_Status) " +
+            "VALUES (@ownerSss, @roadmapName, @protected, @creationTime, @startYear, @endYear, @xml, @validationStatus, @convertToVehicleInputStatus)";
+
+          cm.Parameters.AddWithValue("@ownerSss", data.OwnerSss);
+          cm.Parameters.AddWithValue("@roadmapName", data.RoadmapName);
+          cm.Parameters.AddWithValue("@protected", data.Protected);
+          cm.Parameters.AddWithValue("@creationTime", data.CreationTime);
+          cm.Parameters.AddWithValue("@startYear", data.StartYear);
+          cm.Parameters.AddWithValue("@endYear", data.EndYear);
+          cm.Parameters.AddWithValue("@xml", data.Xml);
+          cm.Parameters.AddWithValue("@validationStatus", data.ValidationStatusValue);
+          cm.Parameters.AddWithValue("@convertToVehicleInputStatus", data.ConvertToVehicleInputStatusValue);
+
+          cm.ExecuteNonQuery();
+          cm.Parameters.Clear();
+          cm.CommandText = "SELECT @@identity";
+          var r = cm.ExecuteScalar();
+          var newId = int.Parse(r.ToString());
+          data.RoadmapGroupId = newId;
+        }
+      }
     }
 
     public void Update(RoadmapGroupDto data) {
