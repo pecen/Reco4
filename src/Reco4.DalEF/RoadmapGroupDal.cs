@@ -16,7 +16,25 @@ namespace Reco4.DalEF {
     private readonly string _dbName = "Reco4Db";
 
     public void Delete(int id) {
-      throw new NotImplementedException();
+      using (var ctx = DbContextManager<Reco4Context>.GetManager(_dbName)) {
+        var data = (from r in ctx.DbContext.RoadmapGroups
+                    where r.RoadmapGroupId == id
+                    select r).FirstOrDefault();
+
+        if (data != null) {
+          ctx.DbContext.RoadmapGroups.Remove(data);
+          ctx.DbContext.SaveChanges();
+        }
+      }
+    }
+
+    public bool Exists(int id) {
+      using (var ctx = DbContextManager<Reco4Context>.GetManager(_dbName)) {
+        var result = (from r in ctx.DbContext.RoadmapGroups
+                      where r.RoadmapGroupId == id
+                      select r.RoadmapGroupId).Count() > 0;
+        return result;
+      }
     }
 
     public List<RoadmapGroupDto> Fetch() {

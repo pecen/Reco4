@@ -18,6 +18,10 @@ namespace Reco4.DalSql {
       throw new NotImplementedException();
     }
 
+    public bool Exists(int id) {
+      throw new NotImplementedException();
+    }
+
     public List<RoadmapGroupDto> Fetch() {
       using (var ctx = ConnectionManager<SqlConnection>.GetManager(_dbName)) {
         using (var cm = ctx.Connection.CreateCommand()) {

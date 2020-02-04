@@ -90,6 +90,10 @@ namespace Reco4.Library {
 
     }
 
+    public static void DeleteRoadmapGroup(int id) {
+      DataPortal.Delete<RoadmapGroupEdit>(id);
+    }
+
     #endregion
 
     #region Data Access
@@ -142,6 +146,40 @@ namespace Reco4.Library {
 
           RoadmapGroupId = item.RoadmapGroupId;
         }
+      }
+    }
+
+    protected override void DataPortal_Update() {
+      using (var ctx = DalFactory.GetManager()) {
+        var dal = ctx.GetProvider<Dal.IRoadmapGroupDal>();
+        using (BypassPropertyChecks) {
+          var item = new RoadmapGroupDto {
+            RoadmapGroupId = RoadmapGroupId,
+            OwnerSss = OwnerSss,
+            RoadmapName = RoadmapName,
+            Protected = Protected,
+            CreationTime = CreationTime,
+            StartYear = StartYear,
+            EndYear = EndYear,
+            Xml = Xml,
+            ValidationStatusValue = ValidationStatusValue,
+            ConvertToVehicleInputStatusValue = ConvertToVehicleInputStatusValue
+          };
+          dal.Update(item);
+        }
+      }
+    }
+
+    protected override void DataPortal_DeleteSelf() {
+      using (BypassPropertyChecks) {
+        DataPortal_Delete(RoadmapGroupId);
+      }
+    }
+
+    private void DataPortal_Delete(int id) {
+      using (var dalManager = DalFactory.GetManager()) {
+        var dal = dalManager.GetProvider<IRoadmapGroupDal>();
+        dal.Delete(id);
       }
     }
 

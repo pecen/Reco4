@@ -1,12 +1,11 @@
-﻿using Csla.Data;
-using Csla.Data.EF6;
+﻿using Csla.Data.EF6;
 using Reco4.Dal;
+using Reco4.DalEF;
 using System;
 
-namespace Reco4.DalEF
-{
+namespace Reco4.DalEfCore {
   public class DalManager : IDalManager {
-    private static readonly string _typeMask = typeof(DalManager).FullName.Replace("DalManager", @"{0}");
+    private static string _typeMask = typeof(DalManager).FullName.Replace("DalManager", @"{0}");
 
     public T GetProvider<T>() where T : class {
       var typeName = string.Format(_typeMask, typeof(T).Name.Substring(1));
@@ -19,15 +18,15 @@ namespace Reco4.DalEF
       }
     }
 
-    public DbContextManager<Reco4Context> ConnectionManager { get; private set; }
+    //public DbContextManager<Reco4Context> ConnectionManager { get; private set; }
 
     public DalManager() {
-      ConnectionManager = DbContextManager<Reco4Context>.GetManager(); // "Reco4Db");
+      //ConnectionManager = DbContextManager<Reco4Context>.GetManager(); // "Reco4Db");
     }
 
     public void Dispose() {
-      ConnectionManager.Dispose();
-      ConnectionManager = null;
+      //ConnectionManager.Dispose();
+      //ConnectionManager = null;
     }
   }
 }

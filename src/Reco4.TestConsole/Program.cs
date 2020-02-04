@@ -12,9 +12,6 @@ namespace Reco4.TestConsole {
   class Program {
     [STAThread]
     static void Main(string[] args) {
-      //int id = 45;
-      //string filter = "abc";
-
       while (true) {
         try {
           ShowMenu();
@@ -24,13 +21,12 @@ namespace Reco4.TestConsole {
             case '2': GetRoadmapGroup(); break;
             case '3': SearchRoadmapGroups(); break;
             case '4': CreateRoadmapGroup(); break;
+            case '5': UpdateRoadmapGroup(); break;
+            case '6': DeleteRoadmapGroup(); break;
             case '0': WriteLine(); return;
 
             default: ShowMenu(); break;
           }
-
-          //WriteLine("\nPress key to continue...");
-          //ReadKey();
         }
         catch (Exception ex) {
           WriteLine();
@@ -40,6 +36,7 @@ namespace Reco4.TestConsole {
             ex = ex.InnerException;
           }
         }
+
         WriteLine();
         WriteLine("Press <ENTER> to return to menu.");
         ReadLine();
@@ -58,6 +55,8 @@ namespace Reco4.TestConsole {
       WriteLine(" 2) Get specific Roadmap Group.");
       WriteLine(" 3) Search Roadmap Groups on Name.");
       WriteLine(" 4) Create a new Roadmap Group");
+      WriteLine(" 5) Update a specific Roadmap Group");
+      WriteLine(" 6) Delete a specific Roadmap Group");
       WriteLine(" 0) Exit");
 
       WriteLine("");
@@ -76,9 +75,6 @@ namespace Reco4.TestConsole {
       else {
         WriteLine($"Roadmap Group {item.RoadmapGroupId}: {item.RoadmapName}");
       }
-
-      //WriteLine("\nPress key to continue...");
-      //ReadKey();
     }
 
     private static void SearchRoadmapGroups() {
@@ -102,9 +98,6 @@ namespace Reco4.TestConsole {
       }
 
       WriteLine($"End time: {DateTime.Now}");
-
-      //WriteLine("\nPress key to continue...");
-      //ReadKey();
     }
 
     private static void GetRoadmapGroups() {
@@ -112,8 +105,6 @@ namespace Reco4.TestConsole {
       WriteLine($"Start time: {DateTime.Now}");
 
       var list = RoadmapGroupList.GetRoadmapGroups();
-
-      //int i = 0;
 
       if (list.Count() > 0) {
         foreach (var item in list) {
@@ -126,9 +117,6 @@ namespace Reco4.TestConsole {
       }
 
       WriteLine($"End time: {DateTime.Now}");
-
-      //WriteLine("\nPress key to continue...");
-      //ReadKey();
     }
 
     private static void CreateRoadmapGroup() {
@@ -158,6 +146,46 @@ namespace Reco4.TestConsole {
       roadmap = roadmap.Save();
 
       WriteLine("Roadmap created successfully!!");
+    }
+
+    private static void UpdateRoadmapGroup() {
+      WriteLine("Enter the RoadmapGroupId for the RoadmapGroup you want to change: ");
+      var id = ReadLine();
+      var roadmap = RoadmapGroupEdit.GetRoadmapGroup(int.Parse(id));
+
+      WriteLine($"Current start year is {roadmap.StartYear}");
+      WriteLine("Enter a new start year: ");
+      var startYear = int.Parse(ReadLine());
+
+      WriteLine($"Current EndYear is {roadmap.EndYear}");
+      WriteLine("Enter a new end year: ");
+      var endYear = int.Parse(ReadLine());
+
+      var xmlStream = GetFileDialog();
+
+      if (xmlStream == null) {
+        WriteLine("Action was cancelled");
+
+        return;
+      }
+
+      roadmap.StartYear = startYear;
+      roadmap.EndYear = endYear;
+      roadmap.Xml = GetXml(xmlStream);
+
+      roadmap = roadmap.Save();
+
+      WriteLine("Roadmap updated successfully!!");
+    }
+
+    private static void DeleteRoadmapGroup() {
+      WriteLine("Enter the RoadmapGroupId for the RoadmapGroup you want to delete: ");
+      var id = ReadLine();
+      WriteLine("Hit <Enter> to start deleting.");
+      ReadKey();
+      RoadmapGroupEdit.DeleteRoadmapGroup(int.Parse(id));
+
+      WriteLine("RoadmapGroup deleted successfully.");
     }
 
     private static Stream GetFileDialog() {
