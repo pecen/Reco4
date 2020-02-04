@@ -10,6 +10,7 @@ using static System.Console;
 
 namespace Reco4.TestConsole {
   class Program {
+    [STAThread]
     static void Main(string[] args) {
       //int id = 45;
       //string filter = "abc";
@@ -161,7 +162,7 @@ namespace Reco4.TestConsole {
 
     private static Stream GetFileDialog() {
       OpenFileDialog openFileDialog = new OpenFileDialog {
-        InitialDirectory = Environment.CurrentDirectory,
+        //InitialDirectory = Environment.CurrentDirectory,
         Filter = "Xml files (*.xml)|*.xml|All files (*.*)|*.*",
         FilterIndex = 1,
         RestoreDirectory = true

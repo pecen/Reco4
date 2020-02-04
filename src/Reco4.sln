@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.Library", "Reco4.Libr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.TestConsole", "Reco4.TestConsole\Reco4.TestConsole.csproj", "{4FA7458C-9E1B-48E8-8D71-7485E1AD3792}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.DalEF", "Reco4.DalEF\Reco4.DalEF.csproj", "{464BD53B-F7CD-47C9-8EFC-215DA6DA1B7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{4FA7458C-9E1B-48E8-8D71-7485E1AD3792}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FA7458C-9E1B-48E8-8D71-7485E1AD3792}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FA7458C-9E1B-48E8-8D71-7485E1AD3792}.Release|Any CPU.Build.0 = Release|Any CPU
+		{464BD53B-F7CD-47C9-8EFC-215DA6DA1B7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{464BD53B-F7CD-47C9-8EFC-215DA6DA1B7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{464BD53B-F7CD-47C9-8EFC-215DA6DA1B7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{464BD53B-F7CD-47C9-8EFC-215DA6DA1B7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

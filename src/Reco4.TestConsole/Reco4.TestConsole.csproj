@@ -96,6 +96,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Reco4.DalEF\Reco4.DalEF.csproj">
+      <Project>{464bd53b-f7cd-47c9-8efc-215da6da1b7c}</Project>
+      <Name>Reco4.DalEF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Reco4.DalSql\Reco4.DalSql.csproj">
       <Project>{a603b2ba-962e-440e-8182-5c5b537cc197}</Project>
       <Name>Reco4.DalSql</Name>

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Reco4.DalSql {
   public class RoadmapGroupDal : IRoadmapGroupDal {
-    private readonly string _dbName = "Server";
+    private readonly string _dbName = "Reco4Db";
 
     public void Delete(int id) {
       throw new NotImplementedException();
