@@ -94,6 +94,12 @@ namespace Reco4.Library {
       DataPortal.Delete<RoadmapGroupEdit>(id);
     }
 
+    public static bool Exists(int id) {
+      var cmd = DataPortal.Create<RoadmapGroupExistsCmd>(id);
+      cmd = DataPortal.Execute(cmd);
+      return cmd.RoadmapGroupExists;
+    }
+
     #endregion
 
     #region Data Access

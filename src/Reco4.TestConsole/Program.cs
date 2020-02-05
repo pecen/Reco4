@@ -181,7 +181,14 @@ namespace Reco4.TestConsole {
     private static void DeleteRoadmapGroup() {
       WriteLine("Enter the RoadmapGroupId for the RoadmapGroup you want to delete: ");
       var id = ReadLine();
-      WriteLine("Hit <Enter> to start deleting.");
+      if (RoadmapGroupEdit.Exists(int.Parse(id))) {
+        WriteLine("Hit <Enter> to start deleting.");
+      }
+      else {
+        WriteLine($"The given id ({id}) doesn't exist.");
+        return;
+      }
+
       ReadKey();
       RoadmapGroupEdit.DeleteRoadmapGroup(int.Parse(id));
 
