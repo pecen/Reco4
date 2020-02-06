@@ -19,4 +19,18 @@ Steg som sker när man klickar på "Upload"
 			- Sätt RoadmapGroup.ValidationStatus till ValidationStatus.Processing
 			- Sätt RoadmapGroup.XML = contentsträng
 			- Spara DataContext till databasen
-			
+			- Sätt RoadmapGroup.XMLSchemaFilename
+			- Validera Xml-filen antingen i kod, eller med Xsd 
+				- Om i kod: Skapa ett VehicleConverter-objekt 
+				- Skapa en XmlReader
+				- Deserialisera Xml:en till ett Vehicle-objekt
+				- Om allt gick bra i deserialiseringen:
+					- Skapa ett nytt DatabaseContext-objekt
+					- Sätt Converter.DbContext till detta nya object
+					- Validera alla PDs och returnera om det gick bra eller ej. 
+			- Om valideringen inte gick igenom
+				- Sätt RoadmapGroup.ValidationStatus till ValidationStatus.ValidatedWithFailures
+				- Spara DataContext till databasen
+				- Returnera en Json med {succe = false, message = "Failed to save roadmap. Internal error while validating the baseline using: " + Roadmap.XMLSchemaFilename + "."
+			- Sätt RoadmapGroup.ValidationStatus till ValidatedWithSuccess
+			- Spara DataContext till databasen
