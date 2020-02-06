@@ -99,9 +99,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DalManager.cs" />
+    <Compile Include="Entities\Roadmap.cs" />
     <Compile Include="Entities\RoadmapGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reco4Context.cs" />
+    <Compile Include="RoadmapDal.cs" />
     <Compile Include="RoadmapGroupDal.cs" />
   </ItemGroup>
   <ItemGroup>

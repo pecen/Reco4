@@ -64,7 +64,7 @@ namespace Reco4.TestConsole {
     }
 
     private static void GetRoadmapGroup() {
-      WriteLine("Enter a Roadmap Group Id: ");
+      WriteLine("\nEnter a Roadmap Group Id: ");
       var id = int.Parse(ReadLine());
 
       var item = RoadmapGroupEdit.GetRoadmapGroup(id);
@@ -78,7 +78,7 @@ namespace Reco4.TestConsole {
     }
 
     private static void SearchRoadmapGroups() {
-      WriteLine("Enter a search criteria: ");
+      WriteLine("\nEnter a search criteria: ");
       var filter = ReadLine();
 
       WriteLine(Environment.NewLine);
@@ -120,7 +120,7 @@ namespace Reco4.TestConsole {
     }
 
     private static void CreateRoadmapGroup() {
-      WriteLine("Enter a name for the Roadmap");
+      WriteLine("\nEnter a name for the Roadmap");
       var name = ReadLine();
       WriteLine("Enter start year: ");
       var startYear = int.Parse(ReadLine());
@@ -149,7 +149,7 @@ namespace Reco4.TestConsole {
     }
 
     private static void UpdateRoadmapGroup() {
-      WriteLine("Enter the RoadmapGroupId for the RoadmapGroup you want to change: ");
+      WriteLine("\nEnter the RoadmapGroupId for the RoadmapGroup you want to change: ");
       var id = ReadLine();
       var roadmap = RoadmapGroupEdit.GetRoadmapGroup(int.Parse(id));
 
@@ -179,7 +179,7 @@ namespace Reco4.TestConsole {
     }
 
     private static void DeleteRoadmapGroup() {
-      WriteLine("Enter the RoadmapGroupId for the RoadmapGroup you want to delete: ");
+      WriteLine("\nEnter the RoadmapGroupId for the RoadmapGroup you want to delete: ");
       var id = ReadLine();
       if (RoadmapGroupEdit.Exists(int.Parse(id))) {
         WriteLine("Hit <Enter> to start deleting.");

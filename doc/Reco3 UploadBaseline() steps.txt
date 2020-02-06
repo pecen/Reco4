@@ -1,0 +1,22 @@
+Reco3
+Steg som sker när man klickar på "Upload"
+
+- GetContext()
+- GetRoadmapGroup(baserat på RoadmapGroupId)
+- Om RoadmapGroup:en inte är null så
+	- Om RoadmapGroup.Protected = sant
+		- avbryt, och returnera en Json med {success = false, message = "Roadmap is locked for further changes. Action is aborted."
+	- Om Request.Files.Count > 0 så
+		- Ta fram Filedrop path:en
+		- Om Filedrop path:ens längd <= 0
+			- avbryt, och returnera en Json med {success = false, message = "Server-error, filedrop-area is missing (Virtual folder). Action is aborted."
+		- loopa igenom Request.Files.Count (men det ska bara vara 1 fil, så jag förstår inte varför man ska loopa)
+			- Skapa path, dvs Filedrop path:en ovan + filnamn
+			- Spara xml-filen i path
+			- Skapa FileStream med path
+			- Läs in FileStream i en StreamReader
+			- Läs in StreamReader till en contentsträng
+			- Sätt RoadmapGroup.ValidationStatus till ValidationStatus.Processing
+			- Sätt RoadmapGroup.XML = contentsträng
+			- Spara DataContext till databasen
+			

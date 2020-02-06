@@ -18,6 +18,7 @@ namespace Reco4.DalEF {
     }
 
     public DbSet<RoadmapGroup> RoadmapGroups { get; set; }
+    public DbSet<Roadmap> Roadmaps { get; set; }
 
     protected override void OnModelCreating(DbModelBuilder modelBuilder) {
       // Regarding the row below: The modelBuilder.Conventions.Remove statement in the OnModelCreating 

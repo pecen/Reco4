@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DalFactory.cs" />
+    <Compile Include="Dto\RoadmapDto.cs" />
     <Compile Include="Dto\RoadmapGroupDto.cs" />
     <Compile Include="Enum\ConvertToVehicleInputStatus.cs" />
     <Compile Include="Enum\ValidationStatus.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Exceptions\UpdateFailureException.cs" />
     <Compile Include="Extensions\TimeStampExtensions.cs" />
     <Compile Include="IDalManager.cs" />
+    <Compile Include="IRoadmapDal.cs" />
     <Compile Include="IRoadmapGroupDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
