@@ -23,15 +23,13 @@ namespace Reco4.Library {
 
     public RoadmapGroupExistsCmd() { }
 
-    //public RoadmapGroupExistsCmd(int id) {
-    //  RoadmapGroupId = id;
-    //}
-
-    [Create, RunLocal]
+    [RunLocal]
+    [Create]
     protected void Create(int id) {
       RoadmapGroupId = id;
     }
 
+    [Execute]
     protected override void DataPortal_Execute() {
       using (var ctx = DalFactory.GetManager()) {
         var dal = ctx.GetProvider<IRoadmapGroupDal>();

@@ -77,33 +77,7 @@ namespace Reco4.Library {
 
     #endregion
 
-    #region Factory Mehtods
-
-    //public static RoadmapGroupInfo GetRoadmapGroup(int id) {
-    //  return DataPortal.Fetch<RoadmapGroupInfo>(id);
-    //}
-
-    #endregion
-
     #region Data Access
-
-    //private void Dataportal_Fetch(int id) {
-    //  using (var dalManager = DalFactory.GetManager()) {
-    //    var dal = dalManager.GetProvider<IRoadmapGroupDal>();
-    //    var data = dal.Fetch(id);
-
-    //    RoadmapGroupId = data.RoadmapGroupId;
-    //    OwnerSss = data.OwnerSss;
-    //    RoadmapName = data.RoadmapName;
-    //    Protected = data.Protected;
-    //    CreationTime = data.CreationTime;
-    //    StartYear = data.StartYear;
-    //    EndYear = data.EndYear;
-    //    Xml = data.Xml;
-    //    ValidationStatusValue = data.ValidationStatusValue;
-    //    ConvertToVehicleInputStatusValue = data.ConvertToVehicleInputStatusValue;
-    //  }
-    //}
 
     [FetchChild]
     private void Child_Fetch(RoadmapGroupDto item) {

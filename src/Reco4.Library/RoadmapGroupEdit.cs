@@ -155,6 +155,7 @@ namespace Reco4.Library {
       }
     }
 
+    [Update]
     protected override void DataPortal_Update() {
       using (var ctx = DalFactory.GetManager()) {
         var dal = ctx.GetProvider<Dal.IRoadmapGroupDal>();
@@ -176,12 +177,14 @@ namespace Reco4.Library {
       }
     }
 
+    [DeleteSelf]
     protected override void DataPortal_DeleteSelf() {
       using (BypassPropertyChecks) {
         DataPortal_Delete(RoadmapGroupId);
       }
     }
 
+    [Delete]
     private void DataPortal_Delete(int id) {
       using (var dalManager = DalFactory.GetManager()) {
         var dal = dalManager.GetProvider<IRoadmapGroupDal>();
