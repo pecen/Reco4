@@ -1,0 +1,8 @@
+Scenarios
+
+1. List all Roadmaps
+2. Create new Roadmap
+3. Upload Xml-file with Vehicles to the newly created Roadmap in Db
+4. Save Xml-file with Vehicles to filedrop
+5. Check the components for each vehicle in the xml-file that they exist in the db
+6. 

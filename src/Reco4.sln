@@ -6,6 +6,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7CE2F083-7874-4674-94D8-BC7FED0EF292}"
 	ProjectSection(SolutionItems) = preProject
 		nuget.config = nuget.config
+		..\doc\Scenarios.txt = ..\doc\Scenarios.txt
+		..\doc\UseCases.txt = ..\doc\UseCases.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.Dal", "Reco4.Dal\Reco4.Dal.csproj", "{C4A99522-6057-4211-BCC1-A984AB548F08}"
@@ -18,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.TestConsole", "Reco4.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.DalEF", "Reco4.DalEF\Reco4.DalEF.csproj", "{464BD53B-F7CD-47C9-8EFC-215DA6DA1B7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.DalEfCore", "Reco4.DalEfCore\Reco4.DalEfCore.csproj", "{15C56E3D-639C-4FBF-9B3B-E94C2AA23875}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reco4.DalEfCore", "Reco4.DalEfCore\Reco4.DalEfCore.csproj", "{15C56E3D-639C-4FBF-9B3B-E94C2AA23875}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

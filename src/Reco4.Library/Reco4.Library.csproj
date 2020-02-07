@@ -86,11 +86,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentExistsCmd.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoadmapGroupEdit.cs" />
     <Compile Include="RoadmapGroupExistsCmd.cs" />
     <Compile Include="RoadmapGroupInfo.cs" />
     <Compile Include="RoadmapGroupList.cs" />
+    <Compile Include="VehiclesInfo.cs" />
+    <Compile Include="VehicleList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

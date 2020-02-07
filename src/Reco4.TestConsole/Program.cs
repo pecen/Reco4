@@ -6,10 +6,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using static System.Console;
 
 namespace Reco4.TestConsole {
   class Program {
+    public static VehiclesInfo Vehicles { get; set; }
+
     [STAThread]
     static void Main(string[] args) {
       while (true) {
@@ -23,6 +26,8 @@ namespace Reco4.TestConsole {
             case '4': CreateRoadmapGroup(); break;
             case '5': UpdateRoadmapGroup(); break;
             case '6': DeleteRoadmapGroup(); break;
+            case '7': GetVehicles(); break;
+            case '8': CheckComponentsForVehicle(); break;
             case '0': WriteLine(); return;
 
             default: ShowMenu(); break;
@@ -57,6 +62,8 @@ namespace Reco4.TestConsole {
       WriteLine(" 4) Create a new Roadmap Group");
       WriteLine(" 5) Update a specific Roadmap Group");
       WriteLine(" 6) Delete a specific Roadmap Group");
+      WriteLine(" 7) Get all vehicles");
+      WriteLine(" 8) Check the vehicles components");
       WriteLine(" 0) Exit");
 
       WriteLine("");
@@ -195,8 +202,47 @@ namespace Reco4.TestConsole {
       WriteLine("RoadmapGroup deleted successfully.");
     }
 
+    private static void GetVehicles() {
+      WriteLine("\nGetting vehicles...");
+      var xmlStream = GetFileDialog();
+
+      if (xmlStream == null) {
+        WriteLine("Action was cancelled");
+        return;
+      }
+
+      WriteLine($"Start time: {DateTime.Now}");
+      Cursor.Current = Cursors.WaitCursor;
+      Vehicles = VehiclesInfo.GetVehicles(xmlStream);
+      Cursor.Current = Cursors.Default;
+      WriteLine($"End time: {DateTime.Now}");
+      var count = Vehicles.Vehicles.Vehicle.Count();
+
+      WriteLine($"\nSuccessfully fetched {count} vechicle{(count > 1 ? "s" : string.Empty)}");
+      WriteLine($"The VIN of the first vehicle is: {Vehicles.Vehicles.Vehicle.FirstOrDefault().VIN}");
+    }
+
+    private static void CheckComponentsForVehicle() {
+      WriteLine("\nChecking components...");
+
+      int errors = 0;
+      foreach(var vehicle in Vehicles.Vehicles.Vehicle) {
+        errors += VehiclesInfo.ComponentExists(vehicle.Components.Engine.EnginePD) ? 0 : 1;
+        errors += VehiclesInfo.ComponentExists(vehicle.Components.GearBoxPD) ? 0 : 1;
+        errors += VehiclesInfo.ComponentExists(vehicle.Components.AxleGearPD) ? 0 : 1;
+        errors += VehiclesInfo.ComponentExists(vehicle.Components.RetarderPD) ? 0 : 1;
+        errors += VehiclesInfo.ComponentExists(vehicle.Components.TorqueConverterPD) ? 0 : 1;
+
+        foreach(var axle in vehicle.Components.AxleWheels.Data.Axles.Axle) {
+          errors += VehiclesInfo.ComponentExists(axle.TyrePD) ? 0 : 1;
+        }
+      }
+
+      WriteLine($"All the vehicles components checked. Found {errors} errors");
+    }
+
     private static Stream GetFileDialog() {
-      OpenFileDialog openFileDialog = new OpenFileDialog {
+      Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog {
         //InitialDirectory = Environment.CurrentDirectory,
         Filter = "Xml files (*.xml)|*.xml|All files (*.*)|*.*",
         FilterIndex = 1,

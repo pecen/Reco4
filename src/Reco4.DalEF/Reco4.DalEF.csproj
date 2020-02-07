@@ -98,13 +98,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentDal.cs" />
     <Compile Include="DalManager.cs" />
+    <Compile Include="Entities\Reco3Component.cs" />
     <Compile Include="Entities\Roadmap.cs" />
     <Compile Include="Entities\RoadmapGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reco4Context.cs" />
     <Compile Include="RoadmapDal.cs" />
     <Compile Include="RoadmapGroupDal.cs" />
+    <Compile Include="VehicleDal.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Reco4.Dal\Reco4.Dal.csproj">

@@ -31,6 +31,6 @@ Steg som sker när man klickar på "Upload"
 			- Om valideringen inte gick igenom
 				- Sätt RoadmapGroup.ValidationStatus till ValidationStatus.ValidatedWithFailures
 				- Spara DataContext till databasen
-				- Returnera en Json med {succe = false, message = "Failed to save roadmap. Internal error while validating the baseline using: " + Roadmap.XMLSchemaFilename + "."
+				- Returnera en Json med {success = false, message = "Failed to save roadmap. Internal error while validating the baseline using: " + Roadmap.XMLSchemaFilename + "."
 			- Sätt RoadmapGroup.ValidationStatus till ValidatedWithSuccess
 			- Spara DataContext till databasen

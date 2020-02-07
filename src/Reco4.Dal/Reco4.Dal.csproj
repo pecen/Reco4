@@ -58,6 +58,7 @@
     <Compile Include="DalFactory.cs" />
     <Compile Include="Dto\RoadmapDto.cs" />
     <Compile Include="Dto\RoadmapGroupDto.cs" />
+    <Compile Include="Dto\VehicleDto.cs" />
     <Compile Include="Dto\Vehicle\ADAS.cs" />
     <Compile Include="Dto\Vehicle\AirDrag.cs" />
     <Compile Include="Dto\Vehicle\Auxiliaries.cs" />
@@ -81,9 +82,11 @@
     <Compile Include="Exceptions\DataNotFoundException.cs" />
     <Compile Include="Exceptions\UpdateFailureException.cs" />
     <Compile Include="Extensions\TimeStampExtensions.cs" />
+    <Compile Include="IComponentDal.cs" />
     <Compile Include="IDalManager.cs" />
     <Compile Include="IRoadmapDal.cs" />
     <Compile Include="IRoadmapGroupDal.cs" />
+    <Compile Include="IVehicleDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

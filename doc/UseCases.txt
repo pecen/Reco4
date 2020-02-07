@@ -1,0 +1,9 @@
+Create new RoadmapGroup
+
+1. Get Name
+2. Get StartYear
+3. Get EndYear
+4. Get/Read Xml-file with Vehicles
+5. XmlDeserialize the file into a Vehicle list object
+6. Check every Component for every vehicle in the list that they exist in the Component table in the Db
+7. 
