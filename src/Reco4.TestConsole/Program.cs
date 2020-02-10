@@ -1,17 +1,21 @@
 ﻿using Microsoft.Win32;
 using Reco4.Library;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using static System.Console;
 
 namespace Reco4.TestConsole {
   class Program {
     public static VehiclesInfo Vehicles { get; set; }
+    public static ComponentList Components { get; set; }
+    public static HashSet<string> PDNumbers { get; set; }
 
     [STAThread]
     static void Main(string[] args) {
@@ -226,19 +230,79 @@ namespace Reco4.TestConsole {
       WriteLine("\nChecking components...");
 
       int errors = 0;
-      foreach(var vehicle in Vehicles.Vehicles.Vehicle) {
-        errors += VehiclesInfo.ComponentExists(vehicle.Components.Engine.EnginePD) ? 0 : 1;
-        errors += VehiclesInfo.ComponentExists(vehicle.Components.GearBoxPD) ? 0 : 1;
-        errors += VehiclesInfo.ComponentExists(vehicle.Components.AxleGearPD) ? 0 : 1;
-        errors += VehiclesInfo.ComponentExists(vehicle.Components.RetarderPD) ? 0 : 1;
-        errors += VehiclesInfo.ComponentExists(vehicle.Components.TorqueConverterPD) ? 0 : 1;
+      //foreach(var vehicle in Vehicles.Vehicles.Vehicle) {
+      //  errors += VehiclesInfo.ComponentExists(vehicle.Components.Engine.EnginePD) ? 0 : 1;
+      //  errors += VehiclesInfo.ComponentExists(vehicle.Components.GearBoxPD) ? 0 : 1;
+      //  errors += VehiclesInfo.ComponentExists(vehicle.Components.AxleGearPD) ? 0 : 1;
+      //  errors += VehiclesInfo.ComponentExists(vehicle.Components.RetarderPD) ? 0 : 1;
+      //  errors += VehiclesInfo.ComponentExists(vehicle.Components.TorqueConverterPD) ? 0 : 1;
 
-        foreach(var axle in vehicle.Components.AxleWheels.Data.Axles.Axle) {
-          errors += VehiclesInfo.ComponentExists(axle.TyrePD) ? 0 : 1;
-        }
+      //  foreach(var axle in vehicle.Components.AxleWheels.Data.Axles.Axle) {
+      //    errors += VehiclesInfo.ComponentExists(axle.TyrePD) ? 0 : 1;
+      //  }
+      //}
+
+      WriteLine($"Fetching Components at time {DateTime.Now}");
+      Components = ComponentList.GetComponents();
+      WriteLine($"Finished fetching at time {DateTime.Now}");
+
+      PDNumbers = new HashSet<string>(new PDComparer());
+      foreach (var item in Components) {
+        PDNumbers.Add(item.PDNumber);
       }
 
+      WriteLine($"Start time: {DateTime.Now}");
+      //var v = Components.Any(c => c.PDNumber == Vehicles.Vehicles.Vehicle.Any(v => v.Components.Engine.EnginePD);
+
+      if (Vehicles == null) {
+        WriteLine("There are no Vehicles loaded. Run GetVehicles first.");
+        return;
+      }
+
+      foreach (var vehicle in Vehicles?.Vehicles.Vehicle) {
+        //errors += Components.Select(c => c.PDNumber).Contains(vehicle.Components.Engine.EnginePD) ? 0 : 1;
+        //errors += Components.Select(c => c.PDNumber).Contains(vehicle.Components.GearBoxPD) ? 0 : 1;
+        //errors += Components.Select(c => c.PDNumber).Contains(vehicle.Components.AxleGearPD) ? 0 : 1;
+        //errors += Components.Select(c => c.PDNumber).Contains(vehicle.Components.RetarderPD) ? 0 : 1;
+        //errors += Components.Select(c => c.PDNumber).Contains(vehicle.Components.TorqueConverterPD) ? 0 : 1;
+
+        errors += GetComponentErrors(vehicle.Components.Engine.EnginePD);
+        errors += GetComponentErrors(vehicle.Components.GearBoxPD);
+        errors += GetComponentErrors(vehicle.Components.AxleGearPD);
+        errors += GetComponentErrors(vehicle.Components.RetarderPD);
+        errors += GetComponentErrors(vehicle.Components.TorqueConverterPD);
+
+        foreach (var axle in vehicle.Components.AxleWheels.Data.Axles.Axle) {
+          //errors += Components.Select(c => c.PDNumber).Contains(axle.TyrePD) ? 0 : 1;
+          errors += GetComponentErrors(axle.TyrePD);
+        }
+      }
+      WriteLine($"End time: {DateTime.Now}");
+
       WriteLine($"All the vehicles components checked. Found {errors} errors");
+    }
+
+    private static int GetComponentErrors(string pd) {
+      if (!string.IsNullOrEmpty(pd)) {
+        //return Components
+        //  .Where(c => c.PDNumber == pd)
+        //  .Count() == 0
+        //  ? 1
+        //  : 0;
+        
+        return PDNumbers.Contains(pd) ? 0 : 1;
+
+        //return Components.Any(c => c.PDNumber == pd)
+        //  ? 0
+        //  : 1;
+
+        //return Components.Select(c => c.PDNumber)
+        //  .Contains(pd)
+        //  ? 0
+        //  : 1;
+      }
+
+      return 0;
     }
 
     private static Stream GetFileDialog() {
@@ -262,5 +326,115 @@ namespace Reco4.TestConsole {
         return reader.ReadToEnd();
       }
     }
+
+    //void BtnLoadClick(object sender, EventArgs e) {
+    //  using (System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog()) {
+    //    openFileDialog.Filter = "Xml Files (*.xml)|*.xml";
+    //    //if (openFileDialog.ShowDialog() == DialogResult.OK) {
+    //      XmlReader xmlReader = XmlReader.Create(openFileDialog.FileName);
+
+
+    //      string strid = "";
+    //      TreeNode pName = new TreeNode();
+    //      TreeNode ava = new TreeNode();
+    //      TreeNode price = new TreeNode();
+
+    //      bool idFlag = false;
+    //      bool pNameFlag = false;
+    //      bool avaFlag = false;
+    //      bool priceFlag = false;
+
+    //      string strName = "";
+    //      string strValue = "";
+
+    //      while (xmlReader.Read()) {
+
+    //        switch (xmlReader.NodeType) {
+    //          case XmlNodeType.Element:
+    //            strName = xmlReader.Name;
+    //            switch (strName) {
+    //              case "Id":
+    //                idFlag = true;
+    //                break;
+    //              case "Part_Name":
+    //                pNameFlag = true;
+    //                break;
+    //              case "Total_Available":
+    //                avaFlag = true;
+    //                break;
+    //              case "Price":
+    //                priceFlag = true;
+    //                break;
+    //            }
+    //            break;
+    //          case XmlNodeType.Text:
+    //            strValue = xmlReader.Value;
+
+    //            if (idFlag) {
+    //              //id = new TreeNode(strValue);
+    //              strid = strValue;
+    //            }
+    //            if (pNameFlag) {
+    //              pName = new TreeNode(strValue);
+    //            }
+    //            if (avaFlag) {
+    //              ava = new TreeNode(strValue);
+    //            }
+    //            if (priceFlag) {
+    //              price = new TreeNode(strValue);
+    //              TreeNode[] part = new TreeNode[] { pName, ava, price };
+    //              TreeNode allPart = new TreeNode(strid, part);
+    //              tvData.Nodes.Add(allPart);
+    //            }
+
+    //            idFlag = false;
+    //            pNameFlag = false;
+    //            avaFlag = false;
+    //            priceFlag = false;
+
+    //            break;
+    //          case XmlNodeType.EndElement:
+    //            break;
+    //        }
+    //      }
+    //    }
+    //  }
+    //}
   }
+
+  public class PDComparer : IEqualityComparer<string> {
+    const int _multiplier = 89;
+
+    public bool Equals(string x, string y) {
+      return x == y;
+    }
+
+    public int GetHashCode(string obj) {
+      // Stores the result.
+      int result = 0;
+
+      // Don't compute hash code on null object.
+      if (obj == null) {
+        return 0;
+      }
+
+      // Get length.
+      int length = obj.Length;
+
+      // Return default code for zero-length strings [valid, nothing to hash with].
+      if (length > 0) {
+        // Compute hash for strings with length greater than 1
+        char let1 = obj[0];          // First char of string we use
+        char let2 = obj[length - 1]; // Final char
+
+        // Compute hash code from two characters
+        int part1 = let1 + length;
+        result = (_multiplier * part1) + let2 + length;
+      }
+      return result;
+
+      //return obj.GetHashCode();
+    }
+  }
+
 }

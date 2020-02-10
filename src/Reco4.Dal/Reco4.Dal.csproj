@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DalFactory.cs" />
+    <Compile Include="Dto\ComponentDto.cs" />
     <Compile Include="Dto\RoadmapDto.cs" />
     <Compile Include="Dto\RoadmapGroupDto.cs" />
     <Compile Include="Dto\VehicleDto.cs" />
