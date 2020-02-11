@@ -153,8 +153,7 @@ namespace Reco4.TestConsole {
         return;
       }
 
-      //var tmpStream = new StreamReader(xmlStream);
-      Vehicles = VehiclesInfo.GetVehicles(xmlStream); // tmpStream.BaseStream);
+      Vehicles = VehiclesInfo.GetVehicles(xmlStream); 
 
       CheckComponentsForVehicles();
 
@@ -164,21 +163,22 @@ namespace Reco4.TestConsole {
       roadmap.CreationTime = DateTime.Now;
       roadmap.StartYear = startYear;
       roadmap.EndYear = endYear;
-
-      string msg = string.Empty;
-
-      if (_errors != 0) {
-        msg = $"Missing Components in database. Found {_errors} errors in Xml-file.";
-        msg += "\nRoadmap Group created but no Xml uploaded";
-        roadmap.ValidationStatusValue = ValidationStatus.ValidatedWithFailures;
-      }
-      else {
-        roadmap.Xml = GetXml(xmlStream);
-        roadmap.ValidationStatusValue = ValidationStatus.ValidatedWithSuccess;
-        msg = "Roadmap created successfully!!";
-      }
-
       roadmap.ConvertToVehicleInputStatusValue = ConvertToVehicleInputStatus.Pending;
+
+      //string msg = string.Empty;
+
+      //if (_errors != 0) {
+      //  msg = $"Missing Components in database. Found {_errors} errors in Xml-file.";
+      //  msg += "\nRoadmap Group created but no Xml uploaded";
+      //  roadmap.ValidationStatusValue = ValidationStatus.ValidatedWithFailures;
+      //}
+      //else {
+      //  roadmap.Xml = GetXml(xmlStream);
+      //  roadmap.ValidationStatusValue = ValidationStatus.ValidatedWithSuccess;
+      //  msg = "Roadmap created successfully!!";
+      //}
+
+      var msg = CheckForErrors(xmlStream, roadmap);
 
       roadmap = roadmap.Save();
 
@@ -206,13 +206,19 @@ namespace Reco4.TestConsole {
         return;
       }
 
+      Vehicles = VehiclesInfo.GetVehicles(xmlStream);
+
+      CheckComponentsForVehicles();
+
       roadmap.StartYear = startYear;
       roadmap.EndYear = endYear;
       roadmap.Xml = GetXml(xmlStream);
 
+      var msg = CheckForErrors(xmlStream, roadmap);
+
       roadmap = roadmap.Save();
 
-      WriteLine("Roadmap updated successfully!!");
+      WriteLine(msg);
     }
 
     private static void DeleteRoadmapGroup() {
@@ -333,6 +339,22 @@ namespace Reco4.TestConsole {
       using (StreamReader reader = new StreamReader(xmlStream)) {
         return reader.ReadToEnd();
       }
+    }
+    private static string CheckForErrors(Stream xmlStream, RoadmapGroupEdit roadmap) {
+      string msg = string.Empty;
+
+      if (_errors != 0) {
+        msg = $"Missing Components in database. Found {_errors} errors in Xml-file.";
+        msg += "\nRoadmap Group created but no Xml uploaded";
+        roadmap.ValidationStatusValue = ValidationStatus.ValidatedWithFailures;
+      }
+      else {
+        roadmap.Xml = GetXml(xmlStream);
+        roadmap.ValidationStatusValue = ValidationStatus.ValidatedWithSuccess;
+        msg = "Roadmap created successfully!!";
+      }
+
+      return msg;
     }
   }
 
