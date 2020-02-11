@@ -1,7 +1,7 @@
 ﻿using Csla;
 using Reco4.Dal;
 using Reco4.Dal.Dto;
-using Reco4.Dal.Enum;
+using Reco4.Library.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,8 +89,8 @@ namespace Reco4.Library {
       StartYear = item.StartYear;
       EndYear = item.EndYear;
       Xml = item.Xml;
-      ValidationStatusValue = item.ValidationStatusValue;
-      ConvertToVehicleInputStatusValue = item.ConvertToVehicleInputStatusValue;
+      ValidationStatusValue = (ValidationStatus)item.ValidationStatusValue;
+      ConvertToVehicleInputStatusValue = (ConvertToVehicleInputStatus)item.ConvertToVehicleInputStatusValue;
     }
 
     #endregion

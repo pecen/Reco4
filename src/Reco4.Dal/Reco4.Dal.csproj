@@ -77,8 +77,6 @@
     <Compile Include="Dto\Vehicle\SteeringPump.cs" />
     <Compile Include="Dto\Vehicle\Vehicle.cs" />
     <Compile Include="Dto\Vehicle\Vehicles.cs" />
-    <Compile Include="Enum\ConvertToVehicleInputStatus.cs" />
-    <Compile Include="Enum\ValidationStatus.cs" />
     <Compile Include="Exceptions\ConcurrencyException.cs" />
     <Compile Include="Exceptions\DataNotFoundException.cs" />
     <Compile Include="Exceptions\UpdateFailureException.cs" />

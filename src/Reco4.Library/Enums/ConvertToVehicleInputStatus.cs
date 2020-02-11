@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Reco4.Dal.Enum {
+namespace Reco4.Library.Enum {
   public enum ConvertToVehicleInputStatus {
     Pending,
     Processing,

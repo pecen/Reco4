@@ -1,9 +1,4 @@
-﻿using Reco4.Dal.Enum;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace Reco4.DalEF.Entities {
   public class RoadmapGroup {
@@ -15,7 +10,7 @@ namespace Reco4.DalEF.Entities {
     public int StartYear { get; set; }
     public int EndYear { get; set; }
     public string Xml { get; set; }
-    public ValidationStatus Validation_Status { get; set; }
-    public ConvertToVehicleInputStatus ConvertToVehicleInput_Status { get; set; }
+    public int Validation_Status { get; set; }
+    public int ConvertToVehicleInput_Status { get; set; }
   }
 }

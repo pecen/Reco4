@@ -1,12 +1,9 @@
 ﻿using Csla;
 using Reco4.Dal;
 using Reco4.Dal.Dto;
-using Reco4.Dal.Enum;
+using Reco4.Library.Enum;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace Reco4.Library {
   [Serializable]
@@ -23,11 +20,11 @@ namespace Reco4.Library {
     public static readonly PropertyInfo<string> OwnerSssProperty = RegisterProperty<string>(c => c.OwnerSss);
     public string OwnerSss {
       get { return GetProperty(OwnerSssProperty); }
-      set { SetProperty
-(OwnerSssProperty, value); }
+      set { SetProperty(OwnerSssProperty, value); }
     }
 
     public static readonly PropertyInfo<string> RoadmapNameProperty = RegisterProperty<string>(c => c.RoadmapName);
+    [Required]
     public string RoadmapName {
       get { return GetProperty(RoadmapNameProperty); }
       set { SetProperty(RoadmapNameProperty, value); }
@@ -46,12 +43,14 @@ namespace Reco4.Library {
     }
 
     public static readonly PropertyInfo<int> StartYearProperty = RegisterProperty<int>(c => c.StartYear);
+    [Required]
     public int StartYear {
       get { return GetProperty(StartYearProperty); }
       set { SetProperty(StartYearProperty, value); }
     }
 
     public static readonly PropertyInfo<int> EndYearProperty = RegisterProperty<int>(c => c.EndYear);
+    [Required]
     public int EndYear {
       get { return GetProperty(EndYearProperty); }
       set { SetProperty(EndYearProperty, value); }
@@ -125,8 +124,8 @@ namespace Reco4.Library {
             StartYear = data.StartYear;
             EndYear = data.EndYear;
             Xml = data.Xml;
-            ValidationStatusValue = data.ValidationStatusValue;
-            ConvertToVehicleInputStatusValue = data.ConvertToVehicleInputStatusValue;
+            ValidationStatusValue = (ValidationStatus)data.ValidationStatusValue;
+            ConvertToVehicleInputStatusValue = (ConvertToVehicleInputStatus)data.ConvertToVehicleInputStatusValue;
           }
         }
       }
@@ -145,8 +144,8 @@ namespace Reco4.Library {
             StartYear = StartYear,
             EndYear = EndYear,
             Xml = Xml,
-            ValidationStatusValue = ValidationStatusValue,
-            ConvertToVehicleInputStatusValue = ConvertToVehicleInputStatusValue
+            ValidationStatusValue = (int)ValidationStatusValue,
+            ConvertToVehicleInputStatusValue = (int)ConvertToVehicleInputStatusValue
           };
           dal.Insert(item);
 
@@ -169,8 +168,8 @@ namespace Reco4.Library {
             StartYear = StartYear,
             EndYear = EndYear,
             Xml = Xml,
-            ValidationStatusValue = ValidationStatusValue,
-            ConvertToVehicleInputStatusValue = ConvertToVehicleInputStatusValue
+            ValidationStatusValue = (int)ValidationStatusValue,
+            ConvertToVehicleInputStatusValue = (int)ConvertToVehicleInputStatusValue
           };
           dal.Update(item);
         }

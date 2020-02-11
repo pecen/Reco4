@@ -1,5 +1,4 @@
-﻿using Reco4.Dal.Enum;
-using System;
+﻿using System;
 
 namespace Reco4.Dal.Dto {
   public class RoadmapGroupDto {
@@ -11,7 +10,7 @@ namespace Reco4.Dal.Dto {
     public int StartYear { get; set; }
     public int EndYear { get; set; }
     public string Xml { get; set; }
-    public ValidationStatus ValidationStatusValue { get; set; }
-    public ConvertToVehicleInputStatus ConvertToVehicleInputStatusValue { get; set; }
+    public int ValidationStatusValue { get; set; }
+    public int ConvertToVehicleInputStatusValue { get; set; }
   }
 }

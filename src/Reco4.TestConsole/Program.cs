@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using Reco4.Library;
+using Reco4.Library.Enum;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ using static System.Console;
 
 namespace Reco4.TestConsole {
   class Program {
+    private static int _errors;
+
     public static VehiclesInfo Vehicles { get; set; }
     public static ComponentList Components { get; set; }
     public static HashSet<string> PDNumbers { get; set; }
@@ -31,7 +34,8 @@ namespace Reco4.TestConsole {
             case '5': UpdateRoadmapGroup(); break;
             case '6': DeleteRoadmapGroup(); break;
             case '7': GetVehicles(); break;
-            case '8': CheckComponentsForVehicle(); break;
+            case '8': CheckComponentsForVehicles(); break;
+            case '9': LockAndCreate(); break;
             case '0': WriteLine(); return;
 
             default: ShowMenu(); break;
@@ -68,6 +72,7 @@ namespace Reco4.TestConsole {
       WriteLine(" 6) Delete a specific Roadmap Group");
       WriteLine(" 7) Get all vehicles");
       WriteLine(" 8) Check the vehicles components");
+      WriteLine(" 9) Lock and Create Roadmap");
       WriteLine(" 0) Exit");
 
       WriteLine("");
@@ -131,6 +136,8 @@ namespace Reco4.TestConsole {
     }
 
     private static void CreateRoadmapGroup() {
+      _errors = 0;
+
       WriteLine("\nEnter a name for the Roadmap");
       var name = ReadLine();
       WriteLine("Enter start year: ");
@@ -146,17 +153,36 @@ namespace Reco4.TestConsole {
         return;
       }
 
+      //var tmpStream = new StreamReader(xmlStream);
+      Vehicles = VehiclesInfo.GetVehicles(xmlStream); // tmpStream.BaseStream);
+
+      CheckComponentsForVehicles();
+
       var roadmap = RoadmapGroupEdit.CreateRoadmapGroup();
 
       roadmap.RoadmapName = name;
       roadmap.CreationTime = DateTime.Now;
       roadmap.StartYear = startYear;
       roadmap.EndYear = endYear;
-      roadmap.Xml = GetXml(xmlStream);
+
+      string msg = string.Empty;
+
+      if (_errors != 0) {
+        msg = $"Missing Components in database. Found {_errors} errors in Xml-file.";
+        msg += "\nRoadmap Group created but no Xml uploaded";
+        roadmap.ValidationStatusValue = ValidationStatus.ValidatedWithFailures;
+      }
+      else {
+        roadmap.Xml = GetXml(xmlStream);
+        roadmap.ValidationStatusValue = ValidationStatus.ValidatedWithSuccess;
+        msg = "Roadmap created successfully!!";
+      }
+
+      roadmap.ConvertToVehicleInputStatusValue = ConvertToVehicleInputStatus.Pending;
 
       roadmap = roadmap.Save();
 
-      WriteLine("Roadmap created successfully!!");
+      WriteLine(msg);
     }
 
     private static void UpdateRoadmapGroup() {
@@ -226,22 +252,14 @@ namespace Reco4.TestConsole {
       WriteLine($"The VIN of the first vehicle is: {Vehicles.Vehicles.Vehicle.FirstOrDefault().VIN}");
     }
 
-    private static void CheckComponentsForVehicle() {
+    private static void CheckComponentsForVehicles() {
+      if (Vehicles == null) {
+        //WriteLine("There are no Vehicles loaded. Run GetVehicles first.");
+        //return;
+        GetVehicles();
+      }
+
       WriteLine("\nChecking components...");
-
-      int errors = 0;
-      //foreach(var vehicle in Vehicles.Vehicles.Vehicle) {
-      //  errors += VehiclesInfo.ComponentExists(vehicle.Components.Engine.EnginePD) ? 0 : 1;
-      //  errors += VehiclesInfo.ComponentExists(vehicle.Components.GearBoxPD) ? 0 : 1;
-      //  errors += VehiclesInfo.ComponentExists(vehicle.Components.AxleGearPD) ? 0 : 1;
-      //  errors += VehiclesInfo.ComponentExists(vehicle.Components.RetarderPD) ? 0 : 1;
-      //  errors += VehiclesInfo.ComponentExists(vehicle.Components.TorqueConverterPD) ? 0 : 1;
-
-      //  foreach(var axle in vehicle.Components.AxleWheels.Data.Axles.Axle) {
-      //    errors += VehiclesInfo.ComponentExists(axle.TyrePD) ? 0 : 1;
-      //  }
-      //}
-
       WriteLine($"Fetching Components at time {DateTime.Now}");
       Components = ComponentList.GetComponents();
       WriteLine($"Finished fetching at time {DateTime.Now}");
@@ -251,58 +269,46 @@ namespace Reco4.TestConsole {
         PDNumbers.Add(item.PDNumber);
       }
 
-      WriteLine($"Start time: {DateTime.Now}");
-      //var v = Components.Any(c => c.PDNumber == Vehicles.Vehicles.Vehicle.Any(v => v.Components.Engine.EnginePD);
-
-      if (Vehicles == null) {
-        WriteLine("There are no Vehicles loaded. Run GetVehicles first.");
-        return;
-      }
+      WriteLine($"Start time: {DateTime.Now.ToString("hh:mm:ss.fff")}");
 
       foreach (var vehicle in Vehicles?.Vehicles.Vehicle) {
-        //errors += Components.Select(c => c.PDNumber).Contains(vehicle.Components.Engine.EnginePD) ? 0 : 1;
-        //errors += Components.Select(c => c.PDNumber).Contains(vehicle.Components.GearBoxPD) ? 0 : 1;
-        //errors += Components.Select(c => c.PDNumber).Contains(vehicle.Components.AxleGearPD) ? 0 : 1;
-        //errors += Components.Select(c => c.PDNumber).Contains(vehicle.Components.RetarderPD) ? 0 : 1;
-        //errors += Components.Select(c => c.PDNumber).Contains(vehicle.Components.TorqueConverterPD) ? 0 : 1;
-
-        errors += GetComponentErrors(vehicle.Components.Engine.EnginePD);
-        errors += GetComponentErrors(vehicle.Components.GearBoxPD);
-        errors += GetComponentErrors(vehicle.Components.AxleGearPD);
-        errors += GetComponentErrors(vehicle.Components.RetarderPD);
-        errors += GetComponentErrors(vehicle.Components.TorqueConverterPD);
+        _errors += GetComponentErrors(vehicle.Components.Engine.EnginePD);
+        _errors += GetComponentErrors(vehicle.Components.GearBoxPD);
+        _errors += GetComponentErrors(vehicle.Components.AxleGearPD);
+        _errors += GetComponentErrors(vehicle.Components.RetarderPD);
+        _errors += GetComponentErrors(vehicle.Components.TorqueConverterPD);
 
         foreach (var axle in vehicle.Components.AxleWheels.Data.Axles.Axle) {
-          //errors += Components.Select(c => c.PDNumber).Contains(axle.TyrePD) ? 0 : 1;
-          errors += GetComponentErrors(axle.TyrePD);
+          _errors += GetComponentErrors(axle.TyrePD);
         }
       }
-      WriteLine($"End time: {DateTime.Now}");
 
-      WriteLine($"All the vehicles components checked. Found {errors} errors");
+      WriteLine($"End time: {DateTime.Now.ToString("hh:mm:ss.fff")}");
+
+      WriteLine($"All the vehicles components checked. Found {_errors} errors");
     }
 
     private static int GetComponentErrors(string pd) {
       if (!string.IsNullOrEmpty(pd)) {
-        //return Components
-        //  .Where(c => c.PDNumber == pd)
-        //  .Count() == 0
-        //  ? 1
-        //  : 0;
-        
         return PDNumbers.Contains(pd) ? 0 : 1;
-
-        //return Components.Any(c => c.PDNumber == pd)
-        //  ? 0
-        //  : 1;
-
-        //return Components.Select(c => c.PDNumber)
-        //  .Contains(pd)
-        //  ? 0
-        //  : 1;
       }
 
       return 0;
+    }
+
+    private static void LockAndCreate() {
+      WriteLine("\nEnter the Roadmap Group you want to Lock and Create:");
+      var id = ReadLine();
+
+      var roadmap = RoadmapGroupEdit.GetRoadmapGroup(int.Parse(id));
+
+      if(roadmap.ValidationStatusValue != ValidationStatus.ValidatedWithSuccess) {
+        WriteLine("Failed! The Roadmap Group must be validated with success before you can do a Lock and Create.");
+        return;
+      }
+
+      roadmap.ConvertToVehicleInputStatusValue = ConvertToVehicleInputStatus.Processing;
+      roadmap = roadmap.Save();
     }
 
     private static Stream GetFileDialog() {
@@ -322,84 +328,12 @@ namespace Reco4.TestConsole {
     }
 
     private static string GetXml(Stream xmlStream) {
+      xmlStream.Position = 0;
+
       using (StreamReader reader = new StreamReader(xmlStream)) {
         return reader.ReadToEnd();
       }
     }
-
-    //void BtnLoadClick(object sender, EventArgs e) {
-    //  using (System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog()) {
-    //    openFileDialog.Filter = "Xml Files (*.xml)|*.xml";
-    //    //if (openFileDialog.ShowDialog() == DialogResult.OK) {
-    //      XmlReader xmlReader = XmlReader.Create(openFileDialog.FileName);
-
-
-    //      string strid = "";
-    //      TreeNode pName = new TreeNode();
-    //      TreeNode ava = new TreeNode();
-    //      TreeNode price = new TreeNode();
-
-    //      bool idFlag = false;
-    //      bool pNameFlag = false;
-    //      bool avaFlag = false;
-    //      bool priceFlag = false;
-
-    //      string strName = "";
-    //      string strValue = "";
-
-    //      while (xmlReader.Read()) {
-
-    //        switch (xmlReader.NodeType) {
-    //          case XmlNodeType.Element:
-    //            strName = xmlReader.Name;
-    //            switch (strName) {
-    //              case "Id":
-    //                idFlag = true;
-    //                break;
-    //              case "Part_Name":
-    //                pNameFlag = true;
-    //                break;
-    //              case "Total_Available":
-    //                avaFlag = true;
-    //                break;
-    //              case "Price":
-    //                priceFlag = true;
-    //                break;
-    //            }
-    //            break;
-    //          case XmlNodeType.Text:
-    //            strValue = xmlReader.Value;
-
-    //            if (idFlag) {
-    //              //id = new TreeNode(strValue);
-    //              strid = strValue;
-    //            }
-    //            if (pNameFlag) {
-    //              pName = new TreeNode(strValue);
-    //            }
-    //            if (avaFlag) {
-    //              ava = new TreeNode(strValue);
-    //            }
-    //            if (priceFlag) {
-    //              price = new TreeNode(strValue);
-    //              TreeNode[] part = new TreeNode[] { pName, ava, price };
-    //              TreeNode allPart = new TreeNode(strid, part);
-    //              tvData.Nodes.Add(allPart);
-    //            }
-
-    //            idFlag = false;
-    //            pNameFlag = false;
-    //            avaFlag = false;
-    //            priceFlag = false;
-
-    //            break;
-    //          case XmlNodeType.EndElement:
-    //            break;
-    //        }
-    //      }
-    //    }
-    //  }
-    //}
   }
 
   public class PDComparer : IEqualityComparer<string> {
@@ -431,10 +365,8 @@ namespace Reco4.TestConsole {
         int part1 = let1 + length;
         result = (_multiplier * part1) + let2 + length;
       }
-      return result;
 
-      //return obj.GetHashCode();
+      return result;
     }
   }
-
 }

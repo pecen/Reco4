@@ -1,14 +1,10 @@
 ﻿using Csla.Data;
 using Reco4.Dal;
 using Reco4.Dal.Dto;
-using Reco4.Dal.Enum;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Reco4.DalSql {
   public class RoadmapGroupDal : IRoadmapGroupDal {
@@ -44,8 +40,8 @@ namespace Reco4.DalSql {
                   StartYear = dr.GetInt32(5),
                   EndYear = dr.GetInt32(6),
                   Xml = dr.GetString(7),
-                  ValidationStatusValue = (ValidationStatus)dr.GetInt32(8),
-                  ConvertToVehicleInputStatusValue = (ConvertToVehicleInputStatus)dr.GetInt32(9)
+                  ValidationStatusValue = dr.GetInt32(8),
+                  ConvertToVehicleInputStatusValue = dr.GetInt32(9)
                 };
 
                 result.Add(roadmapGroup);
@@ -81,8 +77,8 @@ namespace Reco4.DalSql {
                 StartYear = dr.GetInt32(5),
                 EndYear = dr.GetInt32(6),
                 Xml = dr.GetString(7),
-                ValidationStatusValue = (ValidationStatus)dr.GetInt32(8),
-                ConvertToVehicleInputStatusValue = (ConvertToVehicleInputStatus)dr.GetInt32(9)
+                ValidationStatusValue = dr.GetInt32(8),
+                ConvertToVehicleInputStatusValue = dr.GetInt32(9)
               };
 
               return result;
@@ -116,8 +112,8 @@ namespace Reco4.DalSql {
                   StartYear = dr.GetInt32(5),
                   EndYear = dr.GetInt32(6),
                   Xml = dr.GetString(7),
-                  ValidationStatusValue = (ValidationStatus)dr.GetInt32(8),
-                  ConvertToVehicleInputStatusValue = (ConvertToVehicleInputStatus)dr.GetInt32(9)
+                  ValidationStatusValue = dr.GetInt32(8),
+                  ConvertToVehicleInputStatusValue = dr.GetInt32(9)
                 };
 
                 result.Add(roadmapGroup);
