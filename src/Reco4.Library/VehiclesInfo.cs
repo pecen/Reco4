@@ -27,6 +27,10 @@ namespace Reco4.Library {
       return DataPortal.Fetch<VehiclesInfo>(xmlStream);
     }
 
+    public static VehiclesInfo GetVehicles(string xml) {
+      return DataPortal.Fetch<VehiclesInfo>(xml);
+    }
+
     public static bool ComponentExists(string pdNumber) {
       var cmd = DataPortal.Create<ComponentExistsCmd>(pdNumber);
       cmd = DataPortal.Execute(cmd);
@@ -37,8 +41,13 @@ namespace Reco4.Library {
 
     #region Data Access
 
+    [CreateChild]
+    private void Child_Create() {
+      // Do initialization here when creating the object.
+    }
+
     [Fetch]
-    private void DataPortal_Fetch(Stream xmlStream) {
+    private void Fetch(Stream xmlStream) {
       using (var dalManager = DalFactory.GetManager()) {
         var dal = dalManager.GetProvider<IVehicleDal>();
         var data = dal.Fetch(xmlStream);
@@ -48,6 +57,21 @@ namespace Reco4.Library {
           //foreach (var item in data) {
           //  Add(DataPortal.FetchChild<RoadmapGroupInfo>(item));
           //}
+        }
+      }
+    }
+
+    [Fetch]
+    private void Fetch(string xml) {
+      using (var dalManager = DalFactory.GetManager()) {
+        var dal = dalManager.GetProvider<IVehicleDal>();
+        if (string.IsNullOrEmpty(xml)) {
+          return;
+        }
+        var data = dal.Fetch(xml);
+
+        if (data != null) {
+          Vehicles = data.Vehicles;
         }
       }
     }

@@ -16,5 +16,11 @@ namespace Reco4.DalSql {
         Vehicles = new XmlSerializer(typeof(Vehicles)).Deserialize(xmlStream) as Vehicles
       };
     }
+
+    public VehicleDto Fetch(string xml) {
+      return new VehicleDto {
+        Vehicles = new XmlSerializer(typeof(Vehicles)).Deserialize(new StringReader(xml)) as Vehicles
+      };
+    }
   }
 }

@@ -4,5 +4,6 @@ using System.IO;
 namespace Reco4.Dal {
   public interface IVehicleDal {
     VehicleDto Fetch(Stream xmlStream);
+    VehicleDto Fetch(string xml);
   }
 }

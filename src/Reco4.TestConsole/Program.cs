@@ -35,7 +35,8 @@ namespace Reco4.TestConsole {
             case '6': DeleteRoadmapGroup(); break;
             case '7': GetVehicles(); break;
             case '8': CheckComponentsForVehicles(); break;
-            case '9': LockAndCreate(); break;
+            //case '9': LockAndCreate(); break;
+            case '9': CreateRoadmapGroupWRules(); break;
             case '0': WriteLine(); return;
 
             default: ShowMenu(); break;
@@ -72,7 +73,8 @@ namespace Reco4.TestConsole {
       WriteLine(" 6) Delete a specific Roadmap Group");
       WriteLine(" 7) Get all vehicles");
       WriteLine(" 8) Check the vehicles components");
-      WriteLine(" 9) Lock and Create Roadmap");
+      //WriteLine(" 9) Lock and Create Roadmap");
+      WriteLine(" 9) Create a new Roadmap Group via Rules settings");
       WriteLine(" 0) Exit");
 
       WriteLine("");
@@ -212,7 +214,6 @@ namespace Reco4.TestConsole {
 
       roadmap.StartYear = startYear;
       roadmap.EndYear = endYear;
-      roadmap.Xml = GetXml(xmlStream);
 
       var msg = CheckForErrors(xmlStream, roadmap);
 
@@ -315,6 +316,34 @@ namespace Reco4.TestConsole {
 
       roadmap.ConvertToVehicleInputStatusValue = ConvertToVehicleInputStatus.Processing;
       roadmap = roadmap.Save();
+
+      WriteLine("Roadmap locked and created with success!");
+    }
+
+    private static void CreateRoadmapGroupWRules() {
+      WriteLine("\nEnter a name for the Roadmap");
+      var name = ReadLine();
+      WriteLine("Enter start year: ");
+      var startYear = int.Parse(ReadLine());
+      WriteLine("Enter end year: ");
+      var endYear = int.Parse(ReadLine());
+
+      var xmlStream = GetFileDialog();
+
+      if (xmlStream == null) {
+        WriteLine("Action was cancelled");
+
+        return;
+      }
+
+      var roadmap = RoadmapGroupEdit.CreateRoadmapGroup();
+
+      roadmap.RoadmapName = name;
+      roadmap.CreationTime = DateTime.Now;
+      roadmap.StartYear = startYear;
+      roadmap.EndYear = endYear;
+      roadmap.Xml = GetXml(xmlStream);
+      roadmap.ConvertToVehicleInputStatusValue = ConvertToVehicleInputStatus.Pending;
     }
 
     private static Stream GetFileDialog() {
@@ -351,7 +380,7 @@ namespace Reco4.TestConsole {
       else {
         roadmap.Xml = GetXml(xmlStream);
         roadmap.ValidationStatusValue = ValidationStatus.ValidatedWithSuccess;
-        msg = "Roadmap created successfully!!";
+        msg = "Roadmap created/updated successfully!!";
       }
 
       return msg;
