@@ -106,7 +106,7 @@ namespace Reco4.Library {
           return;
         }
 
-        var vehicles = VehiclesInfo.GetVehicles(target.ReadProperty(XmlProperty));
+        var vehicles = VehiclesInfo.GetVehicles(target.Xml); // target.ReadProperty(XmlProperty));
         var components = ComponentList.GetComponents();
         var pdNumbers = new HashSet<string>(new PDComparer());
 

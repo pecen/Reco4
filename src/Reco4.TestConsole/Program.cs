@@ -353,13 +353,15 @@ namespace Reco4.TestConsole {
       roadmap.CreationTime = DateTime.Now;
       roadmap.StartYear = startYear;
       roadmap.EndYear = endYear;
+      WriteLine($"Start checking components at: {DateTime.Now.ToString("hh:mm:ss fff")}");
       roadmap.Xml = GetXml(xmlStream);
+      WriteLine($"End checking components at: {DateTime.Now.ToString("hh:mm:ss fff")}");
       roadmap.ConvertToVehicleInputStatusValue = ConvertToVehicleInputStatus.Pending;
 
       if (roadmap.IsSavable) {
-        WriteLine($"Start time: {DateTime.Now.ToString("hh:mm:ss.fff")}");
+        WriteLine($"Start saving at: {DateTime.Now.ToString("hh:mm:ss.fff")}");
         roadmap = roadmap.Save();
-        WriteLine($"End time: {DateTime.Now.ToString("hh:mm:ss.fff")}");
+        WriteLine($"End saving at: {DateTime.Now.ToString("hh:mm:ss.fff")}");
         if (roadmap.ValidationStatusValue == ValidationStatus.ValidatedWithSuccess) {
           WriteLine("Roadmap Group successfully saved!");
         }
