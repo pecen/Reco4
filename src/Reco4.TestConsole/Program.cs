@@ -188,6 +188,8 @@ namespace Reco4.TestConsole {
     }
 
     private static void UpdateRoadmapGroup() {
+      _errors = 0;
+
       WriteLine("\nEnter the RoadmapGroupId for the RoadmapGroup you want to change: ");
       var id = ReadLine();
       var roadmap = RoadmapGroupEdit.GetRoadmapGroup(int.Parse(id));
@@ -324,9 +326,11 @@ namespace Reco4.TestConsole {
       WriteLine("\nEnter a name for the Roadmap");
       var name = ReadLine();
       WriteLine("Enter start year: ");
-      var startYear = int.Parse(ReadLine());
+      var s = ReadLine();
+      var startYear = string.IsNullOrEmpty(s) ? 0 : int.Parse(s);
       WriteLine("Enter end year: ");
-      var endYear = int.Parse(ReadLine());
+      s = ReadLine();
+      var endYear = string.IsNullOrEmpty(s) ? 0 : int.Parse(s);
 
       var xmlStream = GetFileDialog();
 
@@ -338,12 +342,38 @@ namespace Reco4.TestConsole {
 
       var roadmap = RoadmapGroupEdit.CreateRoadmapGroup();
 
+      //PDNumbers = new HashSet<string>(new PDComparer());
+      //foreach (var item in roadmap.Components) {
+      //  PDNumbers.Add(item.PDNumber);
+      //}
+
+      //roadmap.PDNumbers = PDNumbers;
+
       roadmap.RoadmapName = name;
       roadmap.CreationTime = DateTime.Now;
       roadmap.StartYear = startYear;
       roadmap.EndYear = endYear;
       roadmap.Xml = GetXml(xmlStream);
       roadmap.ConvertToVehicleInputStatusValue = ConvertToVehicleInputStatus.Pending;
+
+      if (roadmap.IsSavable) {
+        WriteLine($"Start time: {DateTime.Now.ToString("hh:mm:ss.fff")}");
+        roadmap = roadmap.Save();
+        WriteLine($"End time: {DateTime.Now.ToString("hh:mm:ss.fff")}");
+        if (roadmap.ValidationStatusValue == ValidationStatus.ValidatedWithSuccess) {
+          WriteLine("Roadmap Group successfully saved!");
+        }
+        else {
+          foreach (var item in roadmap.BrokenRulesCollection) {
+            WriteLine(item.Description);
+          }
+        }
+      }
+      else {
+        foreach (var error in roadmap.BrokenRulesCollection) {
+          WriteLine(error.Description);
+        }
+      }
     }
 
     private static Stream GetFileDialog() {

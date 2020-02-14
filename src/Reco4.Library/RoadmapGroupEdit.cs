@@ -8,6 +8,7 @@ using Reco4.Library.Enum;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 
 namespace Reco4.Library {
   [Serializable]
@@ -28,7 +29,6 @@ namespace Reco4.Library {
     }
 
     public static readonly PropertyInfo<string> RoadmapNameProperty = RegisterProperty<string>(c => c.RoadmapName);
-    //[Required]
     public string RoadmapName {
       get { return GetProperty(RoadmapNameProperty); }
       set { SetProperty(RoadmapNameProperty, value); }
@@ -80,47 +80,24 @@ namespace Reco4.Library {
       set { SetProperty(ConvertToVehicleInputStatusValueProperty, value); }
     }
 
-    public static readonly PropertyInfo<VehiclesInfo> VehiclesProperty = RegisterProperty<VehiclesInfo>(c => c.Vehicles);
-    public VehiclesInfo Vehicles {
-      get { return GetProperty(VehiclesProperty); }
-      set { SetProperty(VehiclesProperty, value); }
-    }
-
-    public static readonly PropertyInfo<ComponentList> ComponentsProperty = RegisterProperty<ComponentList>(c => c.Components);
-    public ComponentList Components {
-      get { return GetProperty(ComponentsProperty); }
-      set { SetProperty(ComponentsProperty, value); }
-    }
-
-    public static readonly PropertyInfo<HashSet<string>> PDNumbersProperty = RegisterProperty<HashSet<string>>(c => c.PDNumbers);
-    public HashSet<string> PDNumbers {
-      get { return GetProperty(PDNumbersProperty); }
-      set { SetProperty(PDNumbersProperty, value); }
-    }
-
     #endregion
 
     #region Business Rules
 
     protected override void AddBusinessRules() {
+      //BusinessRules.ProcessThroughPriority = 1;
       base.AddBusinessRules();
 
       BusinessRules.AddRule(new Required(RoadmapNameProperty, "You have to give a name to the Roadmap Group."));
-      BusinessRules.AddRule(new ComponentNotExists { PrimaryProperty = XmlProperty });
+      //BusinessRules.AddRule(new ValidYear { PrimaryProperty = StartYearProperty, Priority = 0 });
+      //BusinessRules.AddRule(new ValidYear { PrimaryProperty = EndYearProperty, Priority = 0 });
+      BusinessRules.AddRule(new StartYearGTEndYear { PrimaryProperty = StartYearProperty, AffectedProperties = { EndYearProperty }, Priority = 1 });
+      BusinessRules.AddRule(new StartYearGTEndYear { PrimaryProperty = EndYearProperty, AffectedProperties = { StartYearProperty }, Priority = 1 });
+      BusinessRules.AddRule(new ComponentMustExist { PrimaryProperty = XmlProperty });
     }
 
-    protected override void OnPropertyChanged(IPropertyInfo propertyInfo) {
-      base.OnPropertyChanged(propertyInfo);
-
-      if (propertyInfo == RoadmapNameProperty) {
-        CheckPropertyRules(propertyInfo);
-      }
-    }
-
-    private class ComponentNotExists : BusinessRule {
-      //private HashSet<string> _pdNumbers;
-
-      protected override void Execute(Csla.Rules.IRuleContext context) {
+    private class ComponentMustExist : BusinessRule {
+      protected override void Execute(IRuleContext context) {
         int _errors = 0;
 
         var target = (RoadmapGroupEdit)context.Target;
@@ -129,41 +106,36 @@ namespace Reco4.Library {
           return;
         }
 
-        //target.Components = ComponentList.GetComponents();
-        target.Vehicles = VehiclesInfo.GetVehicles(target.ReadProperty(XmlProperty));
+        var vehicles = VehiclesInfo.GetVehicles(target.ReadProperty(XmlProperty));
+        var components = ComponentList.GetComponents();
+        var pdNumbers = new HashSet<string>(new PDComparer());
 
-        //target.PDNumbers = new HashSet<string>(new PDComparer());
-        foreach (var item in target.Components) {
-          target.PDNumbers.Add(item.PDNumber);
+        foreach (var item in components) {
+          pdNumbers.Add(item.PDNumber);
         }
 
-        //_pdNumbers = target.PDNumbers;
-
-        foreach (var vehicle in target.Vehicles?.Vehicles.Vehicle) {
-          //_errors += string.IsNullOrEmpty(vehicle.Components.Engine.EnginePD)
-          //  ? 0
-          //  : target.PDNumbers.Contains(vehicle.Components.Engine.EnginePD)
-          //    ? 0
-          //    : 1;
-          _errors += GetComponentErrors(vehicle.Components.Engine.EnginePD, target.PDNumbers);
-          _errors += GetComponentErrors(vehicle.Components.GearBoxPD, target.PDNumbers);
-          _errors += GetComponentErrors(vehicle.Components.AxleGearPD, target.PDNumbers);
-          _errors += GetComponentErrors(vehicle.Components.RetarderPD, target.PDNumbers);
-          _errors += GetComponentErrors(vehicle.Components.TorqueConverterPD, target.PDNumbers);
+        foreach (var vehicle in vehicles?.Vehicles.Vehicle) {
+          _errors += GetComponentErrors(vehicle.Components.Engine.EnginePD, pdNumbers);
+          _errors += GetComponentErrors(vehicle.Components.GearBoxPD, pdNumbers);
+          _errors += GetComponentErrors(vehicle.Components.AxleGearPD, pdNumbers);
+          _errors += GetComponentErrors(vehicle.Components.RetarderPD, pdNumbers);
+          _errors += GetComponentErrors(vehicle.Components.TorqueConverterPD, pdNumbers);
 
           foreach (var axle in vehicle.Components.AxleWheels.Data.Axles.Axle) {
-            _errors += GetComponentErrors(axle.TyrePD, target.PDNumbers);
+            _errors += GetComponentErrors(axle.TyrePD, pdNumbers);
           }
         }
 
-        if(_errors != 0) {
-          context.AddErrorResult($"Missing Components in database. Found {_errors} errors in Xml-file." +
+        if (_errors != 0) {
+          context.AddInformationResult($"Missing Components in database. Found {_errors} error{(_errors > 1 ? "s" : string.Empty)} in Xml-file." +
             "\nRoadmap Group created but no Xml uploaded");
+          context.AddOutValue(string.Empty);
           target.ValidationStatusValue = ValidationStatus.ValidatedWithFailures;
         }
         else {
           target.ValidationStatusValue = ValidationStatus.ValidatedWithSuccess;
-          context.AddInformationResult("Roadmap created/updated successfully!!");
+          context.AddInformationResult($"Components validated successfully!!");
+          context.AddSuccessResult(true);
         }
       }
 
@@ -176,37 +148,30 @@ namespace Reco4.Library {
       }
     }
 
-    public class PDComparer : IEqualityComparer<string> {
-      const int _multiplier = 89;
+    private class StartYearGTEndYear : BusinessRule {
+      protected override void Execute(Csla.Rules.IRuleContext context) {
+        var target = (RoadmapGroupEdit)context.Target;
 
-      public bool Equals(string x, string y) {
-        return x == y;
+        var startYear = target.ReadProperty(StartYearProperty);
+        var endYear = target.ReadProperty(EndYearProperty);
+        if (startYear.ToString().Length == 4 && endYear.ToString().Length == 4 && startYear > endYear) // || !startYear.HasValue && endYear.HasValue)
+          context.AddErrorResult("Start year can't be after end year");
       }
+    }
 
-      public int GetHashCode(string obj) {
-        // Stores the result.
-        int result = 0;
+    private class ValidYear : BusinessRule {
+      protected override void Execute(IRuleContext context) {
+        var target = (RoadmapGroupEdit)context.Target;
 
-        // Don't compute hash code on null object.
-        if (obj == null) {
-          return 0;
+        var startYear = target.ReadProperty(StartYearProperty);
+        var endYear = target.ReadProperty(EndYearProperty);
+
+        if (startYear.ToString().Length != 4) {
+          context.AddErrorResult("The start year has an incorrect value");
         }
-
-        // Get length.
-        int length = obj.Length;
-
-        // Return default code for zero-length strings [valid, nothing to hash with].
-        if (length > 0) {
-          // Compute hash for strings with length greater than 1
-          char let1 = obj[0];          // First char of string we use
-          char let2 = obj[length - 1]; // Final char
-
-          // Compute hash code from two characters
-          int part1 = let1 + length;
-          result = (_multiplier * part1) + let2 + length;
+        if (endYear.ToString().Length != 4) {
+          context.AddErrorResult("The end year has an incorrect value");
         }
-
-        return result;
       }
     }
 
@@ -240,11 +205,11 @@ namespace Reco4.Library {
     [RunLocal]
     [Create]
     private void Create() {
-      Components = ComponentList.GetComponents();
+      //Components = ComponentList.GetComponents();
       //Vehicles = VehiclesInfo.GetVehicles(ReadProperty(XmlProperty));
       //LoadProperty(ComponentsProperty, DataPortal.CreateChild<ComponentList>());
       //LoadProperty(VehiclesProperty, DataPortal.CreateChild<VehiclesInfo>());
-      LoadProperty(PDNumbersProperty, new HashSet<string>(new PDComparer()));
+      //LoadProperty(PDNumbersProperty, new HashSet<string>(new PDComparer()));
       base.DataPortal_Create();
     }
 
@@ -332,4 +297,42 @@ namespace Reco4.Library {
 
     #endregion
   }
+
+  #region Comparer
+
+  public class PDComparer : IEqualityComparer<string> {
+    const int _multiplier = 89;
+
+    public bool Equals(string x, string y) {
+      return x == y;
+    }
+
+    public int GetHashCode(string obj) {
+      // Stores the result.
+      int result = 0;
+
+      // Don't compute hash code on null object.
+      if (obj == null) {
+        return 0;
+      }
+
+      // Get length.
+      int length = obj.Length;
+
+      // Return default code for zero-length strings [valid, nothing to hash with].
+      if (length > 0) {
+        // Compute hash for strings with length greater than 1
+        char let1 = obj[0];          // First char of string we use
+        char let2 = obj[length - 1]; // Final char
+
+        // Compute hash code from two characters
+        int part1 = let1 + length;
+        result = (_multiplier * part1) + let2 + length;
+      }
+
+      return result;
+    }
+  }
+
+  #endregion
 }
