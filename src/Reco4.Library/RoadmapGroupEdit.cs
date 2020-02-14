@@ -85,13 +85,11 @@ namespace Reco4.Library {
     #region Business Rules
 
     protected override void AddBusinessRules() {
-      //BusinessRules.ProcessThroughPriority = 1;
       base.AddBusinessRules();
 
       BusinessRules.AddRule(new Required(RoadmapNameProperty, "You have to give a name to the Roadmap Group."));
-      //BusinessRules.AddRule(new ValidYear { PrimaryProperty = StartYearProperty, Priority = 0 });
-      //BusinessRules.AddRule(new ValidYear { PrimaryProperty = EndYearProperty, Priority = 0 });
-      BusinessRules.AddRule(new StartYearGTEndYear { PrimaryProperty = StartYearProperty, AffectedProperties = { EndYearProperty }, Priority = 1 });
+      BusinessRules.AddRule(new ValidStartYear { PrimaryProperty = StartYearProperty, Priority = 0 });
+      BusinessRules.AddRule(new ValidEndYear { PrimaryProperty = EndYearProperty, Priority = 0 });
       BusinessRules.AddRule(new StartYearGTEndYear { PrimaryProperty = EndYearProperty, AffectedProperties = { StartYearProperty }, Priority = 1 });
       BusinessRules.AddRule(new ComponentMustExist { PrimaryProperty = XmlProperty });
     }
@@ -106,13 +104,20 @@ namespace Reco4.Library {
           return;
         }
 
-        var vehicles = VehiclesInfo.GetVehicles(target.Xml); // target.ReadProperty(XmlProperty));
+        var xml = (string)ReadProperty(target, RoadmapGroupEdit.XmlProperty);
+
+        Console.WriteLine($"Start time getting vehicles: {DateTime.Now.ToString("hh:mm:ss fff")}");
+        var vehicles = VehiclesInfo.GetVehicles(xml); // target.Xml);  // target.ReadProperty(XmlProperty));
+        Console.WriteLine($"End time getting vehicles: {DateTime.Now.ToString("hh:mm:ss fff")}");
         var components = ComponentList.GetComponents();
+        Console.WriteLine($"End time getting components: {DateTime.Now.ToString("hh:mm:ss fff")}");
         var pdNumbers = new HashSet<string>(new PDComparer());
 
         foreach (var item in components) {
           pdNumbers.Add(item.PDNumber);
         }
+
+        Console.WriteLine($"End time setting PDNumbers: {DateTime.Now.ToString("hh:mm:ss fff")}");
 
         foreach (var vehicle in vehicles?.Vehicles.Vehicle) {
           _errors += GetComponentErrors(vehicle.Components.Engine.EnginePD, pdNumbers);
@@ -126,11 +131,13 @@ namespace Reco4.Library {
           }
         }
 
+        Console.WriteLine($"End time for component validation: {DateTime.Now.ToString("hh:mm:ss.fff")}");
+
         if (_errors != 0) {
           context.AddInformationResult($"Missing Components in database. Found {_errors} error{(_errors > 1 ? "s" : string.Empty)} in Xml-file." +
             "\nRoadmap Group created but no Xml uploaded");
-          context.AddOutValue(string.Empty);
-          target.ValidationStatusValue = ValidationStatus.ValidatedWithFailures;
+          LoadProperty(target, XmlProperty, string.Empty);
+          LoadProperty(target, ValidationStatusValueProperty, ValidationStatus.ValidatedWithFailures);
         }
         else {
           target.ValidationStatusValue = ValidationStatus.ValidatedWithSuccess;
@@ -149,29 +156,45 @@ namespace Reco4.Library {
     }
 
     private class StartYearGTEndYear : BusinessRule {
-      protected override void Execute(Csla.Rules.IRuleContext context) {
-        var target = (RoadmapGroupEdit)context.Target;
-
-        var startYear = target.ReadProperty(StartYearProperty);
-        var endYear = target.ReadProperty(EndYearProperty);
-        if (startYear.ToString().Length == 4 && endYear.ToString().Length == 4 && startYear > endYear) // || !startYear.HasValue && endYear.HasValue)
-          context.AddErrorResult("Start year can't be after end year");
-      }
-    }
-
-    private class ValidYear : BusinessRule {
       protected override void Execute(IRuleContext context) {
         var target = (RoadmapGroupEdit)context.Target;
 
         var startYear = target.ReadProperty(StartYearProperty);
         var endYear = target.ReadProperty(EndYearProperty);
+        if (startYear.ToString().Length == 4 && endYear.ToString().Length == 4 && startYear > endYear) 
+          context.AddErrorResult("Start year can't be after end year");
+      }
+    }
+
+    private class ValidStartYear : BusinessRule {
+      protected override void Execute(IRuleContext context) {
+        var target = (RoadmapGroupEdit)context.Target;
+
+        var startYear = target.ReadProperty(StartYearProperty);
+        //var endYear = target.ReadProperty(EndYearProperty);
 
         if (startYear.ToString().Length != 4) {
           context.AddErrorResult("The start year has an incorrect value");
         }
+        //if (endYear.ToString().Length != 4) {
+        //  context.AddErrorResult("The end year has an incorrect value");
+        //}
+      }
+    }
+
+    private class ValidEndYear : BusinessRule {
+      protected override void Execute(IRuleContext context) {
+        var target = (RoadmapGroupEdit)context.Target;
+
+        var endYear = target.ReadProperty(EndYearProperty);
+        //var endYear = target.ReadProperty(EndYearProperty);
+
         if (endYear.ToString().Length != 4) {
           context.AddErrorResult("The end year has an incorrect value");
         }
+        //if (endYear.ToString().Length != 4) {
+        //  context.AddErrorResult("The end year has an incorrect value");
+        //}
       }
     }
 
@@ -205,11 +228,6 @@ namespace Reco4.Library {
     [RunLocal]
     [Create]
     private void Create() {
-      //Components = ComponentList.GetComponents();
-      //Vehicles = VehiclesInfo.GetVehicles(ReadProperty(XmlProperty));
-      //LoadProperty(ComponentsProperty, DataPortal.CreateChild<ComponentList>());
-      //LoadProperty(VehiclesProperty, DataPortal.CreateChild<VehiclesInfo>());
-      //LoadProperty(PDNumbersProperty, new HashSet<string>(new PDComparer()));
       base.DataPortal_Create();
     }
 

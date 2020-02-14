@@ -293,7 +293,6 @@ namespace Reco4.TestConsole {
       }
 
       WriteLine($"End time: {DateTime.Now.ToString("hh:mm:ss.fff")}");
-
       WriteLine($"All the vehicles components checked. Found {_errors} errors");
     }
 
@@ -323,14 +322,24 @@ namespace Reco4.TestConsole {
     }
 
     private static void CreateRoadmapGroupWRules() {
+      var roadmap = RoadmapGroupEdit.CreateRoadmapGroup();
+
       WriteLine("\nEnter a name for the Roadmap");
-      var name = ReadLine();
+      roadmap.RoadmapName = ReadLine();
       WriteLine("Enter start year: ");
       var s = ReadLine();
-      var startYear = string.IsNullOrEmpty(s) ? 0 : int.Parse(s);
+      roadmap.StartYear = string.IsNullOrEmpty((s)) ? 0 : int.Parse(s);
       WriteLine("Enter end year: ");
       s = ReadLine();
-      var endYear = string.IsNullOrEmpty(s) ? 0 : int.Parse(s);
+      roadmap.EndYear = string.IsNullOrEmpty(s) ? 0 : int.Parse(s);
+
+      if(roadmap.BrokenRulesCollection.Count() > 0) {
+        foreach(var error in roadmap.BrokenRulesCollection) {
+          WriteLine(error.Description);
+        }
+
+        return;
+      }
 
       var xmlStream = GetFileDialog();
 
@@ -340,22 +349,9 @@ namespace Reco4.TestConsole {
         return;
       }
 
-      var roadmap = RoadmapGroupEdit.CreateRoadmapGroup();
-
-      //PDNumbers = new HashSet<string>(new PDComparer());
-      //foreach (var item in roadmap.Components) {
-      //  PDNumbers.Add(item.PDNumber);
-      //}
-
-      //roadmap.PDNumbers = PDNumbers;
-
-      roadmap.RoadmapName = name;
       roadmap.CreationTime = DateTime.Now;
-      roadmap.StartYear = startYear;
-      roadmap.EndYear = endYear;
-      WriteLine($"Start checking components at: {DateTime.Now.ToString("hh:mm:ss fff")}");
+      WriteLine($"Checking components...");
       roadmap.Xml = GetXml(xmlStream);
-      WriteLine($"End checking components at: {DateTime.Now.ToString("hh:mm:ss fff")}");
       roadmap.ConvertToVehicleInputStatusValue = ConvertToVehicleInputStatus.Pending;
 
       if (roadmap.IsSavable) {
