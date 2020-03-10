@@ -92,6 +92,7 @@
     <Compile Include="Enums\ConvertToVehicleInputStatus.cs" />
     <Compile Include="Enums\ValidationStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoadmapEdit.cs" />
     <Compile Include="RoadmapGroupEdit.cs" />
     <Compile Include="RoadmapGroupExistsCmd.cs" />
     <Compile Include="RoadmapGroupInfo.cs" />

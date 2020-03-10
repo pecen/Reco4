@@ -80,6 +80,13 @@ namespace Reco4.Library {
       set { SetProperty(ConvertToVehicleInputStatusValueProperty, value); }
     }
 
+    public static readonly PropertyInfo<RoadmapEdit> RoadmapProperty
+      = RegisterProperty<RoadmapEdit>(c => c.Roadmap);
+    public RoadmapEdit Roadmap {
+      get { return GetProperty(RoadmapProperty); }
+      set { SetProperty(RoadmapProperty, value); }
+    }
+
     #endregion
 
     #region Business Rules
@@ -248,6 +255,8 @@ namespace Reco4.Library {
             Xml = data.Xml;
             ValidationStatusValue = (ValidationStatus)data.ValidationStatusValue;
             ConvertToVehicleInputStatusValue = (ConvertToVehicleInputStatus)data.ConvertToVehicleInputStatusValue;
+            Roadmap = DataPortal.FetchChild<RoadmapEdit>(RoadmapGroupId);
+            //FieldManager.GetChildren();
           }
         }
       }
@@ -270,6 +279,7 @@ namespace Reco4.Library {
             ConvertToVehicleInputStatusValue = (int)ConvertToVehicleInputStatusValue
           };
           dal.Insert(item);
+          //FieldManager.UpdateChildren(item.RoadmapGroupId);
 
           RoadmapGroupId = item.RoadmapGroupId;
         }

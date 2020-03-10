@@ -20,6 +20,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.TestConsole", "Reco4.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.DalEF", "Reco4.DalEF\Reco4.DalEF.csproj", "{464BD53B-F7CD-47C9-8EFC-215DA6DA1B7C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.UI.Module", "Reco4.UI.Module\Reco4.UI.Module.csproj", "{7C429613-22BC-4381-8798-323190F33276}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.UI.Shell", "Reco4.UI.Shell\Reco4.UI.Shell.csproj", "{E03041A1-DE89-4158-8E60-D37917DC96AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +50,14 @@ Global
 		{464BD53B-F7CD-47C9-8EFC-215DA6DA1B7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{464BD53B-F7CD-47C9-8EFC-215DA6DA1B7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{464BD53B-F7CD-47C9-8EFC-215DA6DA1B7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C429613-22BC-4381-8798-323190F33276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C429613-22BC-4381-8798-323190F33276}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C429613-22BC-4381-8798-323190F33276}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C429613-22BC-4381-8798-323190F33276}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E03041A1-DE89-4158-8E60-D37917DC96AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E03041A1-DE89-4158-8E60-D37917DC96AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E03041A1-DE89-4158-8E60-D37917DC96AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E03041A1-DE89-4158-8E60-D37917DC96AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

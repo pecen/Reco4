@@ -26,18 +26,22 @@ namespace Reco4.TestConsole {
         try {
           ShowMenu();
 
-          switch (ReadKey().KeyChar) {
-            case '1': GetRoadmapGroups(); break;
-            case '2': GetRoadmapGroup(); break;
-            case '3': SearchRoadmapGroups(); break;
-            case '4': CreateRoadmapGroup(); break;
-            case '5': UpdateRoadmapGroup(); break;
-            case '6': DeleteRoadmapGroup(); break;
-            case '7': GetVehicles(); break;
-            case '8': CheckComponentsForVehicles(); break;
-            //case '9': LockAndCreate(); break;
-            case '9': CreateRoadmapGroupWRules(); break;
-            case '0': WriteLine(); return;
+          var input = ReadLine();
+
+          switch (input) { //ReadKey().KeyChar) {
+            case "1": GetRoadmapGroups(); break;
+            case "2": GetRoadmapGroup(); break;
+            case "3": SearchRoadmapGroups(); break;
+            case "4": CreateRoadmapGroup(); break;
+            case "5": UpdateRoadmapGroup(); break;
+            case "6": DeleteRoadmapGroup(); break;
+            case "7": GetVehicles(); break;
+            case "8": CheckComponentsForVehicles(); break;
+            case "9": CreateRoadmapGroupWRules(); break;
+            case "10": LockAndCreate(); break;
+            case "11": ConvertVehicles(); break;
+            case "12": Simulate(); break;
+            case "0": WriteLine(); return;
 
             default: ShowMenu(); break;
           }
@@ -57,6 +61,14 @@ namespace Reco4.TestConsole {
       }
     }
 
+    private static void Simulate() {
+      throw new NotImplementedException();
+    }
+
+    private static void ConvertVehicles() {
+      throw new NotImplementedException();
+    }
+
     public static void ShowMenu() {
       Clear();
       WriteLine("PREREQ:");
@@ -73,8 +85,10 @@ namespace Reco4.TestConsole {
       WriteLine(" 6) Delete a specific Roadmap Group");
       WriteLine(" 7) Get all vehicles");
       WriteLine(" 8) Check the vehicles components");
-      //WriteLine(" 9) Lock and Create Roadmap");
       WriteLine(" 9) Create a new Roadmap Group via Rules settings");
+      WriteLine(" 10) Lock and Create Roadmap");
+      WriteLine(" 11) Convert Vehicles");
+      WriteLine(" 12) Simulate");
       WriteLine(" 0) Exit");
 
       WriteLine("");
