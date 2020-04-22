@@ -1,4 +1,5 @@
 ﻿using Csla;
+using Reco4.Dal;
 using Reco4.Dal.Dto;
 using System;
 using System.Collections.Generic;
@@ -64,15 +65,32 @@ namespace Reco4.Library {
     #region Data Access
 
     [FetchChild]
-    private void Child_Fetch(RoadmapDto item) {
-      RoadmapId = item.RoadmapId;
-      RoadmapName = item.RoadmapName;
-      Protected = item.Protected;
-      ValidationStatus = item.ValidationStatus;
-      ConvertToVehicleStatus = item.ConvertToVehicleInputStatus;
-      RoadmapGroupId = item.RoadmapGroupId;
-      CurrentYear = item.CurrentYear;
-      ImprovedVehicleCount = item.ImprovedVehicleCount;
+    private void Child_Fetch(int id) {
+      //RoadmapId = item.RoadmapId;
+      //RoadmapName = item.RoadmapName;
+      //Protected = item.Protected;
+      //ValidationStatus = item.ValidationStatus;
+      //ConvertToVehicleStatus = item.ConvertToVehicleInputStatus;
+      //RoadmapGroupId = item.RoadmapGroupId;
+      //CurrentYear = item.CurrentYear;
+      //ImprovedVehicleCount = item.ImprovedVehicleCount;
+
+      using (var dalManager = DalFactory.GetManager()) {
+        var dal = dalManager.GetProvider<IRoadmapDal>();
+        var data = dal.Fetch(id);
+        if (data != null) {
+          using (BypassPropertyChecks) {
+            RoadmapId = data.RoadmapId;
+            RoadmapName = data.RoadmapName;
+            Protected = data.Protected;
+            ValidationStatus = data.ValidationStatus;
+            ConvertToVehicleStatus = data.ConvertToVehicleInputStatus;
+            RoadmapGroupId = data.RoadmapGroupId;
+            CurrentYear = data.CurrentYear;
+            ImprovedVehicleCount = data.ImprovedVehicleCount;
+          }
+        }
+      }
     }
 
     #endregion

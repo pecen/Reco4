@@ -215,7 +215,6 @@ namespace Reco4.Library {
 
     public static RoadmapGroupEdit GetRoadmapGroup(int id) {
       return DataPortal.Fetch<RoadmapGroupEdit>(id);
-
     }
 
     public static void DeleteRoadmapGroup(int id) {

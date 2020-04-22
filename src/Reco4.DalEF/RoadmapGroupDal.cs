@@ -54,20 +54,47 @@ namespace Reco4.DalEF {
 
     public RoadmapGroupDto Fetch(int id) {
       using (var ctx = DbContextManager<Reco4Context>.GetManager(_dbName)) {
-        var result = (from r in ctx.DbContext.RoadmapGroups
-                      where r.RoadmapGroupId == id
-                      select new RoadmapGroupDto {
-                        RoadmapGroupId = r.RoadmapGroupId,
-                        OwnerSss = r.OwnerSss,
-                        RoadmapName = r.RoadmapName,
-                        Protected = r.Protected,
-                        CreationTime = r.CreationTime,
-                        StartYear = r.StartYear,
-                        EndYear = r.EndYear,
-                        Xml = r.Xml,
-                        ValidationStatusValue = r.Validation_Status,
-                        ConvertToVehicleInputStatusValue = r.ConvertToVehicleInput_Status
-                      }).FirstOrDefault();
+        //var result = (from r in ctx.DbContext.RoadmapGroups
+        //              .Include("Roadmaps")                      
+        //              where r.RoadmapGroupId == id 
+        //              select new RoadmapGroupDto {
+        //                RoadmapGroupId = r.RoadmapGroupId,
+        //                OwnerSss = r.OwnerSss,
+        //                RoadmapName = r.RoadmapName,
+        //                Protected = r.Protected,
+        //                CreationTime = r.CreationTime,
+        //                StartYear = r.StartYear,
+        //                EndYear = r.EndYear,
+        //                Xml = r.Xml,
+        //                ValidationStatusValue = r.Validation_Status,
+        //                ConvertToVehicleInputStatusValue = r.ConvertToVehicleInput_Status
+        //              }).FirstOrDefault();
+        var result = ctx.DbContext.RoadmapGroups
+          //.Include("Roadmaps")
+          .Where(r => r.RoadmapGroupId == id)
+          .Select(d => new RoadmapGroupDto {
+            RoadmapGroupId = d.RoadmapGroupId,
+            OwnerSss = d.OwnerSss,
+            RoadmapName = d.RoadmapName,
+            Protected = d.Protected,
+            CreationTime = d.CreationTime,
+            StartYear = d.StartYear,
+            EndYear = d.EndYear,
+            Xml = d.Xml,
+            ValidationStatusValue = d.Validation_Status,
+            ConvertToVehicleInputStatusValue = d.ConvertToVehicleInput_Status
+          })
+          .FirstOrDefault();
+
+        //var result2 = ctx.DbContext.RoadmapGroups
+        //  .Include("Roadmaps")
+        //  .Where(r => r.RoadmapGroupId == id);
+
+        //var result3 = ctx.DbContext.RoadmapGroups
+        //  .Include("Roadmap")
+        //  .Where(r => r.RoadmapGroupId == id)
+        //  .First();
+
         return result;
       }
     }

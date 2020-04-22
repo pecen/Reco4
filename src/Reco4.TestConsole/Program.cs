@@ -41,6 +41,7 @@ namespace Reco4.TestConsole {
             case "10": LockAndCreate(); break;
             case "11": ConvertVehicles(); break;
             case "12": Simulate(); break;
+            case "99": SplitString(); break;
             case "0": WriteLine(); return;
 
             default: ShowMenu(); break;
@@ -59,6 +60,20 @@ namespace Reco4.TestConsole {
         WriteLine("Press <ENTER> to return to menu.");
         ReadLine();
       }
+    }
+
+    private static void SplitString() {
+      WriteLine("Hit <Enter> to choose file with string(s) to read.");
+      ReadLine();
+      WriteLine($"Number of strings = {HandleItemLine(GetContent(GetFileDialog(FileTypes.pub.ToString())))}");
+    }
+
+    private static int HandleItemLine(string line) {
+      return line
+        .Split(new char[] { ' ', '\r', '\n' })
+        .Where(c => !string.IsNullOrEmpty(c))
+        .ToArray()
+        .Count();
     }
 
     private static void Simulate() {
@@ -161,7 +176,7 @@ namespace Reco4.TestConsole {
       WriteLine("Enter end year: ");
       var endYear = int.Parse(ReadLine());
 
-      var xmlStream = GetFileDialog();
+      var xmlStream = GetFileDialog(FileTypes.xml.ToString());
 
       if (xmlStream == null) {
         WriteLine("Action was cancelled");
@@ -169,7 +184,7 @@ namespace Reco4.TestConsole {
         return;
       }
 
-      Vehicles = VehiclesInfo.GetVehicles(xmlStream); 
+      Vehicles = VehiclesInfo.GetVehicles(xmlStream);
 
       CheckComponentsForVehicles();
 
@@ -216,7 +231,7 @@ namespace Reco4.TestConsole {
       WriteLine("Enter a new end year: ");
       var endYear = int.Parse(ReadLine());
 
-      var xmlStream = GetFileDialog();
+      var xmlStream = GetFileDialog(FileTypes.xml.ToString());
 
       if (xmlStream == null) {
         WriteLine("Action was cancelled");
@@ -257,7 +272,7 @@ namespace Reco4.TestConsole {
 
     private static void GetVehicles() {
       WriteLine("\nGetting vehicles...");
-      var xmlStream = GetFileDialog();
+      var xmlStream = GetFileDialog(FileTypes.xml.ToString());
 
       if (xmlStream == null) {
         WriteLine("Action was cancelled");
@@ -324,7 +339,7 @@ namespace Reco4.TestConsole {
 
       var roadmap = RoadmapGroupEdit.GetRoadmapGroup(int.Parse(id));
 
-      if(roadmap.ValidationStatusValue != ValidationStatus.ValidatedWithSuccess) {
+      if (roadmap.ValidationStatusValue != ValidationStatus.ValidatedWithSuccess) {
         WriteLine("Failed! The Roadmap Group must be validated with success before you can do a Lock and Create.");
         return;
       }
@@ -347,15 +362,15 @@ namespace Reco4.TestConsole {
       s = ReadLine();
       roadmap.EndYear = string.IsNullOrEmpty(s) ? 0 : int.Parse(s);
 
-      if(roadmap.BrokenRulesCollection.Count() > 0) {
-        foreach(var error in roadmap.BrokenRulesCollection) {
+      if (roadmap.BrokenRulesCollection.Count() > 0) {
+        foreach (var error in roadmap.BrokenRulesCollection) {
           WriteLine(error.Description);
         }
 
         return;
       }
 
-      var xmlStream = GetFileDialog();
+      var xmlStream = GetFileDialog(FileTypes.xml.ToString());
 
       if (xmlStream == null) {
         WriteLine("Action was cancelled");
@@ -365,7 +380,7 @@ namespace Reco4.TestConsole {
 
       roadmap.CreationTime = DateTime.Now;
       WriteLine($"Checking components...");
-      roadmap.Xml = GetXml(xmlStream);
+      roadmap.Xml = GetContent(xmlStream);
       roadmap.ConvertToVehicleInputStatusValue = ConvertToVehicleInputStatus.Pending;
 
       if (roadmap.IsSavable) {
@@ -388,10 +403,10 @@ namespace Reco4.TestConsole {
       }
     }
 
-    private static Stream GetFileDialog() {
+    private static Stream GetFileDialog(string suffix) {
       Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog {
         //InitialDirectory = Environment.CurrentDirectory,
-        Filter = "Xml files (*.xml)|*.xml|All files (*.*)|*.*",
+        Filter = $"{char.ToUpper(suffix[0]) + suffix.Substring(1)} files (*.{suffix})|*.{suffix}|All files (*.*)|*.*",
         FilterIndex = 1,
         RestoreDirectory = true
       };
@@ -404,13 +419,14 @@ namespace Reco4.TestConsole {
       return null;
     }
 
-    private static string GetXml(Stream xmlStream) {
-      xmlStream.Position = 0;
+    private static string GetContent(Stream stream) {
+      stream.Position = 0;
 
-      using (StreamReader reader = new StreamReader(xmlStream)) {
+      using (StreamReader reader = new StreamReader(stream)) {
         return reader.ReadToEnd();
       }
     }
+
     private static string CheckForErrors(Stream xmlStream, RoadmapGroupEdit roadmap) {
       string msg = string.Empty;
 
@@ -420,7 +436,7 @@ namespace Reco4.TestConsole {
         roadmap.ValidationStatusValue = ValidationStatus.ValidatedWithFailures;
       }
       else {
-        roadmap.Xml = GetXml(xmlStream);
+        roadmap.Xml = GetContent(xmlStream);
         roadmap.ValidationStatusValue = ValidationStatus.ValidatedWithSuccess;
         msg = "Roadmap created/updated successfully!!";
       }

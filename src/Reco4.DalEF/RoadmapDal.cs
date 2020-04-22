@@ -31,7 +31,7 @@ namespace Reco4.DalEF {
     public RoadmapDto Fetch(int id) {
       using (var ctx = DbContextManager<Reco4Context>.GetManager(_dbName)) {
         var result = (from r in ctx.DbContext.Roadmaps
-                      where r.RoadmapId == id
+                      where r.RoadmapGroupId == id
                       select new RoadmapDto {
                         RoadmapId = r.RoadmapId,
                         RoadmapName = r.RoadmapName,
