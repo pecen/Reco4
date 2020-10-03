@@ -9,11 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Reco4.UI.Module</RootNamespace>
     <AssemblyName>Reco4.UI.Module</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,6 +50,16 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\SelectedRoadmapGroupFilteringToVisibilityConverter.cs" />
+    <Compile Include="Converters\StatusIntToStringConverter.cs" />
+    <Compile Include="Enums\ComponentType.cs" />
+    <Compile Include="Enums\ConvertToVehicleStatus.cs" />
+    <Compile Include="Enums\FilterableRoadmapGroupColumns.cs" />
+    <Compile Include="Enums\PDSource.cs" />
+    <Compile Include="Enums\PDStatus.cs" />
+    <Compile Include="Enums\Titles.cs" />
+    <Compile Include="Enums\ValidationStatus.cs" />
+    <Compile Include="Enums\VehicleMode.cs" />
     <Compile Include="Reco4Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -63,9 +74,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\RoadmapGroupsViewModel.cs" />
     <Compile Include="ViewModels\ViewAViewModel.cs" />
     <Compile Include="ViewModels\ViewBViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\RoadmapGroups.xaml.cs">
+      <DependentUpon>RoadmapGroups.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ViewA.xaml.cs">
       <DependentUpon>ViewA.xaml</DependentUpon>
     </Compile>
@@ -83,8 +98,17 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\Reco4.Utilities\Reco4.Utilities.csproj">
+      <Project>{6ef2dc4f-18ee-4b6f-b57b-3135d3cc52f4}</Project>
+      <Name>Reco4.Utilities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\RoadmapGroups.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ViewA.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -95,6 +119,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
+      <Version>1.1.19</Version>
+    </PackageReference>
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,6 +2,7 @@
 using Prism.Regions;
 using Reco4.UI.Module.Enums;
 using Reco4.UI.Module.ViewModels;
+using Reco4.Utilities.Extensions;
 using Unity;
 
 namespace Reco4.UI.Shell.ViewModels
@@ -12,12 +13,13 @@ namespace Reco4.UI.Shell.ViewModels
     private readonly IUnityContainer _container;
 
     public DelegateCommand<string> NavigateCommand { get; set; }
-    public string ContentRegion { get; } = WindowRegions.ContentRegion.ToString();
-    public string ComponentRegion { get; } = WindowRegions.ComponentRegion.ToString();
-    public string SettingsRegion { get; } = WindowRegions.SettingsRegion.ToString();
+    //public string ContentRegion { get; } = WindowRegions.ContentRegion.ToString();
+    //public string ComponentRegion { get; } = WindowRegions.ComponentRegion.ToString();
+    //public string SettingsRegion { get; } = WindowRegions.SettingsRegion.ToString();
+    public string TabRegion { get; } = WindowRegions.TabRegion.ToString();
 
     public MainWindowViewModel(IRegionManager regionManager, IUnityContainer container) {
-      Title = "Reco 4";
+      Title = Titles.AppTitle.GetDescription();
 
       _regionManager = regionManager;
       _container = container;
