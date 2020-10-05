@@ -4,10 +4,11 @@ namespace Reco4.UI.Module.Enums {
   public enum FilterableRoadmapGroupColumns {
     RoadmapGroupId,
     OwnerSss,
-    [Description("Validated with success")]
+    [Description("Roadmap Name")]
     RoadmapName,
-    [Description("Validated with failure")]
+    [Description("Validation Status")]
     ValidationStatus,
+    [Description("Convertion Status")]
     ConvertToVehicleStatus
   }
 }

@@ -61,16 +61,16 @@ namespace Reco4.Library {
       set { LoadProperty(XmlProperty, value); }
     }
 
-    public static readonly PropertyInfo<ValidationStatus> ValidationStatusValueProperty 
-      = RegisterProperty<ValidationStatus>(c => c.ValidationStatusValue);
-    public ValidationStatus ValidationStatusValue {
+    public static readonly PropertyInfo<int> ValidationStatusValueProperty 
+      = RegisterProperty<int>(c => c.ValidationStatus);
+    public int ValidationStatus {
       get { return GetProperty(ValidationStatusValueProperty); }
       set { LoadProperty(ValidationStatusValueProperty, value); }
     }
 
-    public static readonly PropertyInfo<ConvertToVehicleInputStatus> ConvertToVehicleInputStatusValueProperty 
-      = RegisterProperty<ConvertToVehicleInputStatus>(c => c.ConvertToVehicleInputStatusValue);
-    public ConvertToVehicleInputStatus ConvertToVehicleInputStatusValue {
+    public static readonly PropertyInfo<int> ConvertToVehicleInputStatusValueProperty 
+      = RegisterProperty<int>(c => c.ConvertToVehicleInputStatus);
+    public int ConvertToVehicleInputStatus {
       get { return GetProperty(ConvertToVehicleInputStatusValueProperty); }
       set { LoadProperty(ConvertToVehicleInputStatusValueProperty, value); }
     }
@@ -89,8 +89,8 @@ namespace Reco4.Library {
       StartYear = item.StartYear;
       EndYear = item.EndYear;
       Xml = item.Xml;
-      ValidationStatusValue = (ValidationStatus)item.ValidationStatusValue;
-      ConvertToVehicleInputStatusValue = (ConvertToVehicleInputStatus)item.ConvertToVehicleInputStatusValue;
+      ValidationStatus = item.ValidationStatusValue;
+      ConvertToVehicleInputStatus = item.ConvertToVehicleInputStatusValue;
     }
 
     #endregion

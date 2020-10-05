@@ -26,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,6 +36,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -97,9 +99,20 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Csla">
+      <Version>5.3.1</Version>
+    </PackageReference>
     <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Reco4.DalEF\Reco4.DalEF.csproj">
+      <Project>{464bd53b-f7cd-47c9-8efc-215da6da1b7c}</Project>
+      <Name>Reco4.DalEF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Reco4.DalSql\Reco4.DalSql.csproj">
+      <Project>{a603b2ba-962e-440e-8182-5c5b537cc197}</Project>
+      <Name>Reco4.DalSql</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Reco4.UI.Module\Reco4.UI.Module.csproj">
       <Project>{7C429613-22BC-4381-8798-323190F33276}</Project>
       <Name>Reco4.UI.Module</Name>

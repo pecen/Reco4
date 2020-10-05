@@ -1,4 +1,5 @@
-﻿using Csla.Data.EF6;
+﻿using Csla.Configuration;
+using Csla.Data.EF6;
 using Reco4.Dal;
 using Reco4.Dal.Dto;
 using Reco4.Dal.Exceptions;
@@ -9,7 +10,7 @@ using System.Linq;
 
 namespace Reco4.DalEF {
   public class RoadmapGroupDal : IRoadmapGroupDal {
-    private readonly string _dbName = "Reco4Db";
+    private readonly string _dbName = "Server"; //"Reco4Db";
 
     public void Delete(int id) {
       using (var ctx = DbContextManager<Reco4Context>.GetManager(_dbName)) {

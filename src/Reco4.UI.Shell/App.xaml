@@ -4,5 +4,47 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:local="clr-namespace:Reco4.UI.Shell"
   xmlns:prism="http://prismlibrary.com/">
-  <Application.Resources />
+  <Application.Resources>
+    <!--  The following styles makes the One-Click selection for row in the datagrids  -->
+    <!--  instead of the default behaviour of double-click to select a row  -->
+    <Style TargetType="DataGridCell">
+      <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="True">
+          <Setter Property="IsEditing" Value="True" />
+        </Trigger>
+      </Style.Triggers>
+    </Style>
+    <Style TargetType="ToolTip">
+      <Setter Property="Background" Value="LightYellow" />
+    </Style>
+    <Style x:Key="MyTabItem" TargetType="TabItem">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="TabItem">
+            <Border
+              Name="Border"
+              Margin="2,0"
+              BorderBrush="Gainsboro"
+              BorderThickness="1,1,1,0"
+              CornerRadius="4,4,0,0">
+              <ContentPresenter
+                x:Name="ContentSite"
+                Margin="10,2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                ContentSource="Header" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsSelected" Value="True">
+                <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
+              </Trigger>
+              <Trigger Property="IsSelected" Value="False">
+                <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </Application.Resources>
 </prism:PrismApplication>

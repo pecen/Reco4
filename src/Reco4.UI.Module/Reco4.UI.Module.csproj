@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +33,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -50,6 +52,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\GetRoadmapGroupsCommand.cs" />
     <Compile Include="Converters\SelectedRoadmapGroupFilteringToVisibilityConverter.cs" />
     <Compile Include="Converters\StatusIntToStringConverter.cs" />
     <Compile Include="Enums\ComponentType.cs" />
@@ -60,6 +63,7 @@
     <Compile Include="Enums\Titles.cs" />
     <Compile Include="Enums\ValidationStatus.cs" />
     <Compile Include="Enums\VehicleMode.cs" />
+    <Compile Include="Models\RoadmapGroup.cs" />
     <Compile Include="Reco4Module.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -99,6 +103,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Reco4.Library\Reco4.Library.csproj">
+      <Project>{46748734-1550-4F0E-A820-139D328FDF9D}</Project>
+      <Name>Reco4.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Reco4.Utilities\Reco4.Utilities.csproj">
       <Project>{6ef2dc4f-18ee-4b6f-b57b-3135d3cc52f4}</Project>
       <Name>Reco4.Utilities</Name>
@@ -119,10 +127,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Csla">
+      <Version>5.3.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
       <Version>1.1.19</Version>
     </PackageReference>
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

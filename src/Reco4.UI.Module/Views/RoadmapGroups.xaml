@@ -6,7 +6,7 @@
   xmlns:enums="clr-namespace:Reco4.UI.Module.Enums"
   xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
   xmlns:prism="http://prismlibrary.com/"
-    xmlns:views="clr-namespace:Reco4.UI.Module.Views"
+  xmlns:views="clr-namespace:Reco4.UI.Module.Views"
   prism:ViewModelLocator.AutoWireViewModel="True">
   <UserControl.Resources>
     <converters:StatusIntToStringConverter x:Key="StatusIntToStringConverter" />
@@ -116,13 +116,13 @@
             </DataTemplate>
           </DataGridCheckBoxColumn.HeaderTemplate>
         </DataGridCheckBoxColumn>
-        <DataGridTextColumn Binding="{Binding RoadmapGroupId}" Header="Roadmap Group Id" />
-        <DataGridTextColumn Binding="{Binding OwnerSss}" Header="Owner SSS" />
-        <DataGridTextColumn Binding="{Binding RoadmapName}" Header="Roadmap Name" />
-        <DataGridTextColumn Binding="{Binding Protected}" Header="Protected" />
-        <DataGridTextColumn Binding="{Binding CreationTime}" Header="Creation Time" />
-        <DataGridTextColumn Binding="{Binding ValidationStatus, Converter={StaticResource StatusIntToStringConverter}, ConverterParameter={x:Type enums:ValidationStatus}}" Header="Validation Status" />
-        <DataGridTextColumn Binding="{Binding ConvertToVehicleInputStatus, Converter={StaticResource StatusIntToStringConverter}, ConverterParameter={x:Type enums:ConvertToVehicleStatus}}" Header="Convert to Vehicle Status" />
+        <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.RoadmapGroupId}" Header="Roadmap Group Id" />
+        <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.OwnerSss}" Header="Owner SSS" />
+        <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.RoadmapName}" Header="Roadmap Name" />
+        <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.Protected}" Header="Protected" />
+        <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.CreationTime}" Header="Creation Time" />
+        <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.ValidationStatus, Converter={StaticResource StatusIntToStringConverter}, ConverterParameter={x:Type enums:ValidationStatus}}" Header="Validation Status" />
+        <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.ConvertToVehicleInputStatus, Converter={StaticResource StatusIntToStringConverter}, ConverterParameter={x:Type enums:ConvertToVehicleStatus}}" Header="Convert to Vehicle Status" />
         <!--<DataGridTextColumn
                     Width="200"
                     Binding="{Binding Xml}"

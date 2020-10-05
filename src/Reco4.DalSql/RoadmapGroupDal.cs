@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace Reco4.DalSql {
   public class RoadmapGroupDal : IRoadmapGroupDal {
-    private readonly string _dbName = "Reco4Db";
+    private readonly string _dbName = "Server";
 
     public void Delete(int id) {
       throw new NotImplementedException();
