@@ -78,6 +78,8 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Services\FilteredListService.cs" />
+    <Compile Include="Services\IFilteredListService.cs" />
     <Compile Include="ViewModels\RoadmapGroupsViewModel.cs" />
     <Compile Include="ViewModels\ViewAViewModel.cs" />
     <Compile Include="ViewModels\ViewBViewModel.cs" />
