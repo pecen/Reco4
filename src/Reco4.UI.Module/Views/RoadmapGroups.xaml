@@ -6,11 +6,19 @@
   xmlns:enums="clr-namespace:Reco4.UI.Module.Enums"
   xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
   xmlns:prism="http://prismlibrary.com/"
-  xmlns:views="clr-namespace:Reco4.UI.Module.Views"
+  xmlns:properties="clr-namespace:Reco4.UI.Module.Properties"
+  xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
   prism:ViewModelLocator.AutoWireViewModel="True">
   <UserControl.Resources>
     <converters:StatusIntToStringConverter x:Key="StatusIntToStringConverter" />
     <converters:SelectedRoadmapGroupFilteringToVisibilityConverter x:Key="SelectedFilteringToVisibilityConverter" />
+    <Style x:Key="HeaderTextStyle" TargetType="{x:Type TextBlock}">
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="SnapsToDevicePixels" Value="True" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+      <Setter Property="TextAlignment" Value="Center" />
+    </Style>
   </UserControl.Resources>
   <Grid Margin="10">
 
@@ -100,7 +108,7 @@
       </StackPanel>
     </Grid>
 
-    <DataGrid
+    <!--<DataGrid
       x:Name="roadmapGroupGrid"
       Grid.Row="1"
       AutoGenerateColumns="False"
@@ -123,12 +131,68 @@
         <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.CreationTime}" Header="Creation Time" />
         <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.ValidationStatus, Converter={StaticResource StatusIntToStringConverter}, ConverterParameter={x:Type enums:ValidationStatus}}" Header="Validation Status" />
         <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.ConvertToVehicleInputStatus, Converter={StaticResource StatusIntToStringConverter}, ConverterParameter={x:Type enums:ConvertToVehicleStatus}}" Header="Convert to Vehicle Status" />
-        <!--<DataGridTextColumn
+    -->
+    <!--<DataGridTextColumn
                     Width="200"
                     Binding="{Binding Xml}"
                     Header="Xml" />-->
+    <!--
       </DataGrid.Columns>
-    </DataGrid>
+    </DataGrid>-->
+
+    <telerik:RadGridView
+      x:Name="radRoadmapGroupGrid"
+      Grid.Row="1"
+      AutoGenerateColumns="False"
+      CanUserInsertRows="False"
+      ItemsSource="{Binding RoadmapGroups, UpdateSourceTrigger=PropertyChanged}">
+
+      <telerik:RadGridView.Columns>
+        <telerik:GridViewSelectColumn />
+        <telerik:GridViewDataColumn
+          DataMemberBinding="{Binding RoadmapGroupInfo.RoadmapGroupId}"
+          IsFilteringDeferred="True"
+          IsReadOnly="True"
+          ShowFieldFilters="False"
+          UniqueName="RoadmapGroupId">
+          <telerik:GridViewDataColumn.Header>
+            <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.RoadmapGroupId}" />
+          </telerik:GridViewDataColumn.Header>
+        </telerik:GridViewDataColumn>
+      </telerik:RadGridView.Columns>
+    </telerik:RadGridView>
+
+    <!--<DataGrid
+      x:Name="roadmapGroupGrid"
+      Grid.Row="1"
+      AutoGenerateColumns="False"
+      CanUserAddRows="False"
+      HorizontalScrollBarVisibility="Auto"
+      ItemsSource="{Binding RoadmapGroups, UpdateSourceTrigger=PropertyChanged}">
+
+      <DataGrid.Columns>
+        <DataGridCheckBoxColumn Binding="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}">
+          <DataGridCheckBoxColumn.HeaderTemplate>
+            <DataTemplate>
+              <CheckBox IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=views:RoadmapGroups}, Path=DataContext.AllSelected}">Select All</CheckBox>
+            </DataTemplate>
+          </DataGridCheckBoxColumn.HeaderTemplate>
+        </DataGridCheckBoxColumn>
+        <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.RoadmapGroupId}" Header="Roadmap Group Id" />
+        <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.OwnerSss}" Header="Owner SSS" />
+        <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.RoadmapName}" Header="Roadmap Name" />
+        <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.Protected}" Header="Protected" />
+        <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.CreationTime}" Header="Creation Time" />
+        <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.ValidationStatus, Converter={StaticResource StatusIntToStringConverter}, ConverterParameter={x:Type enums:ValidationStatus}}" Header="Validation Status" />
+        <DataGridTextColumn Binding="{Binding RoadmapGroupInfo.ConvertToVehicleInputStatus, Converter={StaticResource StatusIntToStringConverter}, ConverterParameter={x:Type enums:ConvertToVehicleStatus}}" Header="Convert to Vehicle Status" />
+    -->
+    <!--<DataGridTextColumn
+                    Width="200"
+                    Binding="{Binding Xml}"
+                    Header="Xml" />-->
+    <!--
+      </DataGrid.Columns>
+    </DataGrid>-->
 
   </Grid>
 </UserControl>

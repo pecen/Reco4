@@ -5,17 +5,15 @@
   xmlns:local="clr-namespace:Reco4.UI.Shell"
   xmlns:prism="http://prismlibrary.com/">
   <Application.Resources>
-    <!--  The following styles makes the One-Click selection for row in the datagrids  -->
-    <!--  instead of the default behaviour of double-click to select a row  -->
+    <!--  The following styles makes the One-Click selection for a row in the Wpf datagrids  -->
+    <!--  instead of the default behaviour of double-click to select a row. If Telerik  -->
+    <!--  RadGridView is used they can be ignored  -->
     <Style TargetType="DataGridCell">
       <Style.Triggers>
         <Trigger Property="IsMouseOver" Value="True">
           <Setter Property="IsEditing" Value="True" />
         </Trigger>
       </Style.Triggers>
-    </Style>
-    <Style TargetType="ToolTip">
-      <Setter Property="Background" Value="LightYellow" />
     </Style>
     <Style x:Key="MyTabItem" TargetType="TabItem">
       <Setter Property="Template">
@@ -45,6 +43,11 @@
           </ControlTemplate>
         </Setter.Value>
       </Setter>
+    </Style>
+    <!--  End  -->
+    
+    <Style TargetType="ToolTip">
+      <Setter Property="Background" Value="LightYellow" />
     </Style>
   </Application.Resources>
 </prism:PrismApplication>
