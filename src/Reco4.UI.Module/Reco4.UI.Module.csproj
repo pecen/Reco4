@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\GetRoadmapGroupsCommand.cs" />
+    <Compile Include="Controls\AttachedProperties\RadGridViewCopyOptions.cs" />
     <Compile Include="Converters\SelectedRoadmapGroupFilteringToVisibilityConverter.cs" />
     <Compile Include="Converters\StatusIntToStringConverter.cs" />
     <Compile Include="Enums\ComponentType.cs" />
@@ -122,6 +123,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Assets\Styles\TextBlockStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\RoadmapGroups.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -144,8 +149,6 @@
     </PackageReference>
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\Styles\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

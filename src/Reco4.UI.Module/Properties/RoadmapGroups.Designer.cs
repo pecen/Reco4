@@ -61,11 +61,65 @@ namespace Reco4.UI.Module.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Convert to Vehicle Input Status.
+        /// </summary>
+        public static string ConvertToVehicleInputStatus {
+            get {
+                return ResourceManager.GetString("ConvertToVehicleInputStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creation Time.
+        /// </summary>
+        public static string CreationTime {
+            get {
+                return ResourceManager.GetString("CreationTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Owner SSS.
+        /// </summary>
+        public static string OwnerSSS {
+            get {
+                return ResourceManager.GetString("OwnerSSS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Protected.
+        /// </summary>
+        public static string Protected {
+            get {
+                return ResourceManager.GetString("Protected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Id.
         /// </summary>
         public static string RoadmapGroupId {
             get {
                 return ResourceManager.GetString("RoadmapGroupId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Roadmap Name.
+        /// </summary>
+        public static string RoadmapName {
+            get {
+                return ResourceManager.GetString("RoadmapName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Validation Status.
+        /// </summary>
+        public static string ValidationStatus {
+            get {
+                return ResourceManager.GetString("ValidationStatus", resourceCulture);
             }
         }
     }
