@@ -59,6 +59,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CopySelectedGridRowsCommand.cs" />
     <Compile Include="Commands\GetRoadmapGroupsCommand.cs" />
     <Compile Include="Controls\AttachedProperties\RadGridViewCopyOptions.cs" />
     <Compile Include="Converters\SelectedRoadmapGroupFilteringToVisibilityConverter.cs" />

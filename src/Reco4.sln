@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.UI.Shell", "Reco4.UI.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.Utilities", "Reco4.Utilities\Reco4.Utilities.csproj", "{6EF2DC4F-18EE-4B6F-B57B-3135D3CC52F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reco4.Common", "Reco4.Common\Reco4.Common.csproj", "{09B1E0D2-7D2A-4D48-8D9D-D9CE4AE5B80F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{6EF2DC4F-18EE-4B6F-B57B-3135D3CC52F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EF2DC4F-18EE-4B6F-B57B-3135D3CC52F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EF2DC4F-18EE-4B6F-B57B-3135D3CC52F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09B1E0D2-7D2A-4D48-8D9D-D9CE4AE5B80F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09B1E0D2-7D2A-4D48-8D9D-D9CE4AE5B80F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09B1E0D2-7D2A-4D48-8D9D-D9CE4AE5B80F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09B1E0D2-7D2A-4D48-8D9D-D9CE4AE5B80F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -46,8 +46,9 @@ namespace Reco4.UI.Module.Controls.AttachedProperties {
     private static void CommandPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs) {
       RadGridView gridView = dependencyObject as RadGridView;
       ICommand command = (ICommand)eventArgs.NewValue;
-      KeyBinding keyBinding = new KeyBinding(command, new KeyGesture(Key.C, ModifierKeys.Control));
-      keyBinding.CommandParameter = gridView;
+      KeyBinding keyBinding = new KeyBinding(command, new KeyGesture(Key.C, ModifierKeys.Control)) {
+        CommandParameter = gridView
+      };
       gridView.InputBindings.Add(keyBinding);
     }
   }

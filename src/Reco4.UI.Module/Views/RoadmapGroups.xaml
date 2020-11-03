@@ -142,8 +142,8 @@
     </DataGrid>-->
 
     <telerik:RadGridView
-      x:Name="radRoadmapGroupGrid"
-      attached:RadGridViewCopyOptions.Command=""
+      x:Name="radRoadmapGroupGrid" 
+      attached:RadGridViewCopyOptions.Command="{x:Static }"
       Grid.Row="1"
       AutoGenerateColumns="False"
       CanUserInsertRows="False"

@@ -16,6 +16,7 @@ namespace Reco4.UI.Module.ViewModels {
     private EventAggregator _eventAggregator;
 
     public DelegateCommand DeleteRoadmapGroupsCommand { get; set; }
+    public DelegateCommand CopyGridRowCommand { get; set; }
 
     #region Properties
 
@@ -126,9 +127,14 @@ namespace Reco4.UI.Module.ViewModels {
 
       DeleteRoadmapGroupsCommand = new DelegateCommand(Execute, CanExecute)
         .ObservesProperty(() => HasCheckedItem);
+      CopyGridRowCommand = new DelegateCommand(CopyGridRow);
 
       _eventAggregator.GetEvent<GetRoadmapGroupsCommand>().Subscribe(RoadmapGroupsReceived);
       _eventAggregator.GetEvent<GetRoadmapGroupsCommand>().Publish(RoadmapGroupList.GetRoadmapGroups());
+    }
+
+    private void CopyGridRow() {
+      throw new NotImplementedException();
     }
 
     private void RoadmapGroupsReceived(RoadmapGroupList obj) {
