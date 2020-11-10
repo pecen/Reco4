@@ -54,6 +54,9 @@ namespace Reco4.Library {
           }
         }
       }
+
+            RaiseListChangedEvents = rlce;
+            IsReadOnly = true;
     }
 
     #endregion

@@ -264,7 +264,7 @@ namespace Reco4.Library {
     [Insert]
     private void Insert() {
       using (var ctx = DalFactory.GetManager()) {
-        var dal = ctx.GetProvider<Dal.IRoadmapGroupDal>();
+        var dal = ctx.GetProvider<IRoadmapGroupDal>();
         using (BypassPropertyChecks) {
           var item = new RoadmapGroupDto {
             OwnerSss = OwnerSss,
@@ -288,7 +288,7 @@ namespace Reco4.Library {
     [Update]
     private void Update() {
       using (var ctx = DalFactory.GetManager()) {
-        var dal = ctx.GetProvider<Dal.IRoadmapGroupDal>();
+        var dal = ctx.GetProvider<IRoadmapGroupDal>();
         using (BypassPropertyChecks) {
           var item = new RoadmapGroupDto {
             RoadmapGroupId = RoadmapGroupId,
