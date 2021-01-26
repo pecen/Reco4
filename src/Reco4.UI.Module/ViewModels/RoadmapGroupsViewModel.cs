@@ -1,5 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Events;
+using Reco4.Common.Extensions;
+using Reco4.Common.Models;
 using Reco4.Library;
 using Reco4.UI.Module.Commands;
 using Reco4.UI.Module.Enums;
@@ -56,8 +58,8 @@ namespace Reco4.UI.Module.ViewModels {
     //  set { SetProperty(ref _roadmapGroups, value); }
     //}
 
-    private ObservableCollection<Models.RoadmapGroup> _roadmapGroups;
-    public ObservableCollection<Models.RoadmapGroup> RoadmapGroups {
+    private ObservableCollection<RoadmapGroup> _roadmapGroups;
+    public ObservableCollection<RoadmapGroup> RoadmapGroups {
       get { return _roadmapGroups; }
       set { SetProperty(ref _roadmapGroups, value); }
     }
@@ -143,7 +145,7 @@ namespace Reco4.UI.Module.ViewModels {
     private void RoadmapGroupsReceived(RoadmapGroupList obj) {
       RoadmapGroups = new ObservableCollection<RoadmapGroup>();
 
-      foreach(var item in obj) {
+      foreach (var item in obj) {
         item.PropertyChanged += RoadmapGroupOnPropertyChanged;
 
         RoadmapGroups.Add(new RoadmapGroup {

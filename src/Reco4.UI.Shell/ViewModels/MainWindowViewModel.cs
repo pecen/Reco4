@@ -1,14 +1,12 @@
 ﻿using Prism.Commands;
 using Prism.Regions;
+using Reco4.Common.Extensions;
 using Reco4.UI.Module.Enums;
 using Reco4.UI.Module.ViewModels;
-using Reco4.Utilities.Extensions;
 using Unity;
 
-namespace Reco4.UI.Shell.ViewModels
-{
-    public class MainWindowViewModel : ViewModelBase
-    {
+namespace Reco4.UI.Shell.ViewModels {
+  public class MainWindowViewModel : ViewModelBase {
     private readonly IRegionManager _regionManager;
     private readonly IUnityContainer _container;
 

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Reflection;
 
-namespace Reco4.Utilities.Extensions {
+namespace Reco4.Common.Extensions {
   public static class EnumExtensions {
     /// <summary>
     /// Gets value stored in the Description attribute of the given enumerator value.
