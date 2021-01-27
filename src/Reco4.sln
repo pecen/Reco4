@@ -5,6 +5,7 @@ VisualStudioVersion = 16.0.30803.129
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7CE2F083-7874-4674-94D8-BC7FED0EF292}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		nuget.config = nuget.config
 		..\doc\Scenarios.txt = ..\doc\Scenarios.txt
 		..\doc\UseCases.txt = ..\doc\UseCases.txt

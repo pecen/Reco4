@@ -5,9 +5,7 @@ using Reco4.Common.Models;
 using Reco4.Library;
 using Reco4.UI.Module.Commands;
 using Reco4.UI.Module.Enums;
-using Reco4.UI.Module.Models;
 using Reco4.UI.Module.Services;
-using Reco4.Utilities.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -17,7 +15,7 @@ using System.Windows;
 namespace Reco4.UI.Module.ViewModels {
   public class RoadmapGroupsViewModel : ViewModelBase {
     private readonly EventAggregator _eventAggregator;
-        private readonly IFilteredListService _filteredListService;
+    private readonly IFilteredListService _filteredListService;
 
     public DelegateCommand DeleteRoadmapGroupsCommand { get; set; }
     public DelegateCommand CopyGridRowCommand { get; set; }

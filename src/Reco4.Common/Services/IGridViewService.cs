@@ -16,7 +16,7 @@ namespace Reco4.Common.Services {
     /// <param name="grid">The grid.</param>
     /// <param name="includeHeader">If set to true include header.</param>
     /// <returns>Selected rows data.</returns>
-    IList<IEnumerable<object>> GetSelectedRowsData(GridViewDataControl grid, bool includeHeader = false);
+    IList<IEnumerable<string>> GetSelectedRowsData(GridViewDataControl grid, bool includeHeader = false);
     //IList<IEnumerable<string>> GetSelectedRowsData(GridViewDataControl grid, bool includeHeader = false);
   }
 }
