@@ -2,7 +2,6 @@
 using Prism.Ioc;
 using Reco4.Common.Extensions;
 using Reco4.Common.Services;
-using System;
 using System.Collections.Generic;
 using System.Windows;
 using Telerik.Windows;
@@ -13,15 +12,15 @@ namespace Reco4.UI.Module.Behaviors {
   public class SetSelectedRowsToCommandParameterBehavior : Behavior<RadMenuItem> {
 	private IGridViewService _service;
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="SetSelectedRowsToCommandParameterBehavior"/> class.
-	/// </summary>
-	public SetSelectedRowsToCommandParameterBehavior() {
-	  try {
-		_service = UnityService.Get().Resolve<IGridViewService>();
-	  }
-	  catch (Exception ex) { }
-	}
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SetSelectedRowsToCommandParameterBehavior"/> class.
+    /// </summary>
+    public SetSelectedRowsToCommandParameterBehavior() {
+      try {
+        _service = UnityService.Get().Resolve<IGridViewService>();
+      }
+      catch { }
+    }
 
 	/// <summary>
 	/// Called after the behavior is attached to an AssociatedObject.
