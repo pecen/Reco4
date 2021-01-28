@@ -158,5 +158,14 @@ namespace Reco4.UI.Module.Properties {
                 return ResourceManager.GetString("ValidationStatus", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vehicle Xml Data.
+        /// </summary>
+        public static string Xml {
+            get {
+                return ResourceManager.GetString("Xml", resourceCulture);
+            }
+        }
     }
 }

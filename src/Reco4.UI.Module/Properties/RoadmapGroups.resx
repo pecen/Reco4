@@ -150,4 +150,7 @@
   <data name="ValidationStatus" xml:space="preserve">
     <value>Validation Status</value>
   </data>
+  <data name="Xml" xml:space="preserve">
+    <value>Vehicle Xml Data</value>
+  </data>
 </root>

@@ -3,12 +3,12 @@
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:attachedReco4="clr-namespace:Reco4.Common.Controls.AttachedProperties;assembly=Reco4.Common"
+  xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
   xmlns:commandsReco4="clr-namespace:Reco4.Common.Commands;assembly=Reco4.Common"
   xmlns:commonIcons="clr-namespace:Reco4.Common.Icons;assembly=Reco4.Common"
   xmlns:converters="clr-namespace:Reco4.UI.Module.Converters"
   xmlns:enums="clr-namespace:Reco4.UI.Module.Enums"
   xmlns:frameworkControls="clr-namespace:Reco4.Utilities.UI.Controls;assembly=Reco4.Utilities"
-  xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
   xmlns:localBehaviors="clr-namespace:Reco4.UI.Module.Behaviors"
   xmlns:prism="http://prismlibrary.com/"
   xmlns:properties="clr-namespace:Reco4.UI.Module.Properties"
@@ -151,7 +151,7 @@
     </DataGrid>-->
 
     <telerik:RadGridView
-      x:Name="radRoadmapGroupGrid" 
+      x:Name="radRoadmapGroupGrid"
       Grid.Row="1"
       attachedReco4:RadGridViewCopyOptions.Command="{x:Static commandsReco4:GridCommands.CopySelectedGridRowsCommand}"
       AutoGenerateColumns="False"
@@ -161,8 +161,8 @@
       ItemsSource="{Binding RoadmapGroups, UpdateSourceTrigger=PropertyChanged}"
       SelectionMode="Extended">
 
-    <!--<telerik:RadGridView
-      x:Name="radRoadmapGroupGrid" 
+      <!--<telerik:RadGridView
+      x:Name="radRoadmapGroupGrid"
       Grid.Row="1"
       AutoGenerateColumns="False"
       CanUserInsertRows="False"
@@ -177,12 +177,12 @@
             <!--<telerik:RadMenuItem.Icon>
               <frameworkControls:IconDisplayer HorizontalAlignment="Center" Icon="{x:Static commonIcons:StandardIcons.Copy}" />
             </telerik:RadMenuItem.Icon>-->
-            <telerik:RadMenuItem Header="{x:Static properties:RoadmapGroups.SelectedRowOpenBracketCloseBracket}" Command="{x:Static commandsReco4:GridCommands.CopySelectedRowsCommand}">
+            <telerik:RadMenuItem Command="{x:Static commandsReco4:GridCommands.CopySelectedRowsCommand}" Header="{x:Static properties:RoadmapGroups.SelectedRowOpenBracketCloseBracket}">
               <behaviors:Interaction.Behaviors>
                 <localBehaviors:SetSelectedRowsToCommandParameterBehavior />
               </behaviors:Interaction.Behaviors>
             </telerik:RadMenuItem>
-            <telerik:RadMenuItem Header="{x:Static properties:RoadmapGroups.CellText}" Command="{x:Static commandsReco4:StandardCommands.CopyToClipboardCommand}">
+            <telerik:RadMenuItem Command="{x:Static commandsReco4:StandardCommands.CopyToClipboardCommand}" Header="{x:Static properties:RoadmapGroups.CellText}">
               <behaviors:Interaction.Behaviors>
                 <localBehaviors:SetCellValueToCommandParameterBehavior />
               </behaviors:Interaction.Behaviors>
@@ -208,7 +208,7 @@
           IsFilteringDeferred="True"
           IsReadOnly="True"
           ShowFieldFilters="False"
-          UniqueName="RoadmapGroupId">
+          UniqueName="OwnerSSS">
           <telerik:GridViewDataColumn.Header>
             <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.OwnerSSS}" />
           </telerik:GridViewDataColumn.Header>
@@ -218,7 +218,7 @@
           IsFilteringDeferred="True"
           IsReadOnly="True"
           ShowFieldFilters="False"
-          UniqueName="RoadmapGroupId">
+          UniqueName="RoadmapName">
           <telerik:GridViewDataColumn.Header>
             <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.RoadmapName}" />
           </telerik:GridViewDataColumn.Header>
@@ -228,7 +228,7 @@
           IsFilteringDeferred="True"
           IsReadOnly="True"
           ShowFieldFilters="False"
-          UniqueName="RoadmapGroupId">
+          UniqueName="Protected">
           <telerik:GridViewDataColumn.Header>
             <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.Protected}" />
           </telerik:GridViewDataColumn.Header>
@@ -238,7 +238,7 @@
           IsFilteringDeferred="True"
           IsReadOnly="True"
           ShowFieldFilters="False"
-          UniqueName="RoadmapGroupId">
+          UniqueName="CreationTime">
           <telerik:GridViewDataColumn.Header>
             <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.CreationTime}" />
           </telerik:GridViewDataColumn.Header>
@@ -248,7 +248,7 @@
           IsFilteringDeferred="True"
           IsReadOnly="True"
           ShowFieldFilters="False"
-          UniqueName="RoadmapGroupId">
+          UniqueName="ValidationStatus">
           <telerik:GridViewDataColumn.Header>
             <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.ValidationStatus}" />
           </telerik:GridViewDataColumn.Header>
@@ -258,11 +258,21 @@
           IsFilteringDeferred="True"
           IsReadOnly="True"
           ShowFieldFilters="False"
-          UniqueName="RoadmapGroupId">
+          UniqueName="ConvertToVehicleInputStatus">
           <telerik:GridViewDataColumn.Header>
             <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.ConvertToVehicleInputStatus}" />
           </telerik:GridViewDataColumn.Header>
         </telerik:GridViewDataColumn>
+        <!--<telerik:GridViewDataColumn
+                    DataMemberBinding="{Binding RoadmapGroupInfo.Xml}"
+                    IsFilteringDeferred="True"
+                    IsReadOnly="True"
+                    ShowFieldFilters="False"
+                    UniqueName="Xml">
+                    <telerik:GridViewDataColumn.Header>
+                        <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.Xml}" />
+                    </telerik:GridViewDataColumn.Header>
+                </telerik:GridViewDataColumn>-->
       </telerik:RadGridView.Columns>
     </telerik:RadGridView>
 
