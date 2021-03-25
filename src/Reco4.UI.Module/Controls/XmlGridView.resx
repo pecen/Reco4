@@ -117,47 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CellText" xml:space="preserve">
-    <value>Cell Text</value>
-  </data>
-  <data name="ConvertToVehicleInputStatus" xml:space="preserve">
-    <value>Convert to Vehicle Input Status</value>
-  </data>
-  <data name="Copy" xml:space="preserve">
-    <value>Copy...</value>
-  </data>
-  <data name="CreationTime" xml:space="preserve">
-    <value>Creation Time</value>
-  </data>
-  <data name="DeleteInfo" xml:space="preserve">
-    <value>Delete the selected Roadmap Group(s) in the grid</value>
-    <comment>Tooltip</comment>
-  </data>
-  <data name="OwnerSSS" xml:space="preserve">
-    <value>Owner SSS</value>
-  </data>
-  <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
-  </data>
-  <data name="Protected" xml:space="preserve">
-    <value>Protected</value>
-  </data>
-  <data name="RoadmapGroupId" xml:space="preserve">
-    <value>Id</value>
-  </data>
-  <data name="RoadmapName" xml:space="preserve">
-    <value>Roadmap Name</value>
-  </data>
-  <data name="SearchTextInfo" xml:space="preserve">
-    <value>Filter out which Roadmap Group(s) you want to see</value>
-  </data>
-  <data name="SelectedRowOpenBracketCloseBracket" xml:space="preserve">
-    <value>Selected Row(s)</value>
-  </data>
-  <data name="ValidationStatus" xml:space="preserve">
-    <value>Validation Status</value>
-  </data>
-  <data name="Xml" xml:space="preserve">
-    <value>Vehicle Xml Data</value>
-  </data>
 </root>

@@ -21,7 +21,7 @@ namespace Reco4.Common.Services {
 		/// <param name="cell">The cell.</param>
 		/// <returns>A string with a value if any value exist; Otherwise an empty string.</returns>
 		public string GetText(GridViewCell cell) {
-			if (cell.IsNotNull() && cell.Value.IsNotNull()) {
+			if (cell.IsNotNull()) { // && cell.Value.IsNotNull()) {
 				string result = string.Empty;
 
 				TextBlock provider = cell.Content as TextBlock;
@@ -66,7 +66,7 @@ namespace Reco4.Common.Services {
 			return result;
 		}
 
-		// The following method should be checked and have a re-make/re-factoring
+		// The following method should be checked and most likely have a re-make/re-factoring
 
 		/// <summary>
 		/// Gets the selected data.
@@ -106,16 +106,18 @@ namespace Reco4.Common.Services {
 					//  item
 					//};
 					result.Add(provider);
-				} else if (item.GetType() == typeof(RoadmapGroup)) {
+				}
+				else if (item.GetType() == typeof(RoadmapGroup)) {
 					var row = item as RoadmapGroup;
 					row.IfNotNull(() => {
 						if (row.RoadmapGroupInfo != null) {
 							var rg = row.RoadmapGroupInfo;
-							var props = rg.ToPropertyStringValues();
+							var props = rg.ToPropertyStringValues("Xml");
 							result.Add(props);
 						}
 					});
-				} else {
+				}
+				else {
 					IDataProvider provider = item as IDataProvider;
 					provider.IfNotNull(() => {
 						if (provider.Data != null) {

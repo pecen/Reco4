@@ -25,6 +25,7 @@ namespace Reco4.UI.Module {
 			containerRegistry.RegisterSingleton<ICommandBuilder, CommandBuilder>();
 
 			containerRegistry.RegisterSingleton<IFilteredListService, FilteredListService>();
+			containerRegistry.RegisterSingleton<IXmlProviderService, XmlProviderService>();
 		}
 	}
 }

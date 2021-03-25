@@ -39,6 +39,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -73,13 +75,21 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\SetCellValueToCommandParameterBehavior.cs" />
     <Compile Include="Behaviors\SetSelectedRowsToCommandParameterBehavior.cs" />
     <Compile Include="Commands\GetRoadmapGroupsCommand.cs" />
+    <Compile Include="Controls\XmlGridView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\XmlGridView.Designer.cs">
+      <DependentUpon>XmlGridView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Converters\SelectedRoadmapGroupFilteringToVisibilityConverter.cs" />
     <Compile Include="Converters\StatusIntToStringConverter.cs" />
+    <Compile Include="Converters\XmlToFixedLengthConverter.cs" />
     <Compile Include="Enums\ComponentType.cs" />
     <Compile Include="Enums\ConvertToVehicleStatus.cs" />
     <Compile Include="Enums\FilterableRoadmapGroupColumns.cs" />
@@ -104,12 +114,21 @@
     </Compile>
     <Compile Include="Services\FilteredListService.cs" />
     <Compile Include="Services\IFilteredListService.cs" />
+    <Compile Include="Services\IXmlProviderService.cs" />
+    <Compile Include="Services\XmlProviderService.cs" />
     <Compile Include="ViewModels\RoadmapGroupsViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\XmlViewerViewModel.cs" />
     <Compile Include="Views\RoadmapGroups.xaml.cs">
       <DependentUpon>RoadmapGroups.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums\WindowRegions.cs" />
+    <Compile Include="Views\XmlViewer.xaml.cs">
+      <DependentUpon>XmlViewer.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Controls\XmlGridView.resx">
+      <DependentUpon>XmlGridView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\RoadmapGroups.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>RoadmapGroups.Designer.cs</LastGenOutput>
@@ -140,6 +159,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\RoadmapGroups.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\XmlViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

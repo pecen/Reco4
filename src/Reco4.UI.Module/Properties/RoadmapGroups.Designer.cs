@@ -97,6 +97,15 @@ namespace Reco4.UI.Module.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete the selected Roadmap Group(s) in the grid.
+        /// </summary>
+        public static string DeleteInfo {
+            get {
+                return ResourceManager.GetString("DeleteInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Owner SSS.
         /// </summary>
         public static string OwnerSSS {
@@ -138,6 +147,15 @@ namespace Reco4.UI.Module.Properties {
         public static string RoadmapName {
             get {
                 return ResourceManager.GetString("RoadmapName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter out which Roadmap Group(s) you want to see.
+        /// </summary>
+        public static string SearchTextInfo {
+            get {
+                return ResourceManager.GetString("SearchTextInfo", resourceCulture);
             }
         }
         

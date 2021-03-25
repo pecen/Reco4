@@ -19,10 +19,10 @@ namespace Reco4.Library {
       set { LoadProperty(RoadmapGroupIdProperty, value); }
     }
 
-    public static readonly PropertyInfo<string> OwnerSssProperty = RegisterProperty<string>(c => c.OwnerSss);
-    public string OwnerSss {
-      get { return GetProperty(OwnerSssProperty); }
-      set { LoadProperty(OwnerSssProperty, value); }
+    public static readonly PropertyInfo<string> OwnerSSSProperty = RegisterProperty<string>(c => c.OwnerSSS);
+    public string OwnerSSS {
+      get { return GetProperty(OwnerSSSProperty); }
+      set { LoadProperty(OwnerSSSProperty, value); }
     }
 
     public static readonly PropertyInfo<string> RoadmapNameProperty = RegisterProperty<string>(c => c.RoadmapName);
@@ -82,7 +82,7 @@ namespace Reco4.Library {
     [FetchChild]
     private void Child_Fetch(RoadmapGroupDto item) {
       RoadmapGroupId = item.RoadmapGroupId;
-      OwnerSss = item.OwnerSss;
+      OwnerSSS = item.OwnerSss;
       RoadmapName = item.RoadmapName;
       Protected = item.Protected;
       CreationTime = item.CreationTime;

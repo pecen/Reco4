@@ -77,7 +77,7 @@ namespace Reco4.UI.Module.Behaviors {
       if (menu.IsNotNull()) {
         GridViewCell cell = menu.GetClickedElement<GridViewCell>();
 
-        if (cell.IsNotNull() && cell.Value.IsNotNull()) {
+        if (cell.IsNotNull()) { // && cell.Value.IsNotNull()) {
           TextBlock provider = cell.Content as TextBlock;
 
           if (provider.IsNull()) {

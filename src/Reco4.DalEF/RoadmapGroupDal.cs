@@ -46,8 +46,8 @@ namespace Reco4.DalEF {
                        StartYear = r.StartYear,
                        EndYear = r.EndYear,
                        Xml = r.Xml,
-                       ValidationStatusValue = r.Validation_Status,
-                       ConvertToVehicleInputStatusValue = r.ConvertToVehicleInput_Status
+                       ValidationStatusValue = r.ValidationStatus,
+                       ConvertToVehicleInputStatusValue = r.ConvertToVehicleInputStatus
                      };
         return result.ToList();
       }
@@ -82,8 +82,8 @@ namespace Reco4.DalEF {
             StartYear = d.StartYear,
             EndYear = d.EndYear,
             Xml = d.Xml,
-            ValidationStatusValue = d.Validation_Status,
-            ConvertToVehicleInputStatusValue = d.ConvertToVehicleInput_Status
+            ValidationStatusValue = d.ValidationStatus,
+            ConvertToVehicleInputStatusValue = d.ConvertToVehicleInputStatus
           })
           .FirstOrDefault();
 
@@ -113,8 +113,8 @@ namespace Reco4.DalEF {
                        StartYear = r.StartYear,
                        EndYear = r.EndYear,
                        Xml = r.Xml,
-                       ValidationStatusValue = r.Validation_Status,
-                       ConvertToVehicleInputStatusValue = r.ConvertToVehicleInput_Status
+                       ValidationStatusValue = r.ValidationStatus,
+                       ConvertToVehicleInputStatusValue = r.ConvertToVehicleInputStatus
                      };
         return result.ToList();
       }
@@ -130,8 +130,8 @@ namespace Reco4.DalEF {
           StartYear = data.StartYear,
           EndYear = data.EndYear,
           Xml = data.Xml,
-          Validation_Status = data.ValidationStatusValue,
-          ConvertToVehicleInput_Status = data.ConvertToVehicleInputStatusValue
+          ValidationStatus = data.ValidationStatusValue,
+          ConvertToVehicleInputStatus = data.ConvertToVehicleInputStatusValue
         };
 
         ctx.DbContext.RoadmapGroups.Add(item);
@@ -161,8 +161,8 @@ namespace Reco4.DalEF {
         item.StartYear = data.StartYear;
         item.EndYear = data.EndYear;
         item.Xml = data.Xml;
-        item.Validation_Status = data.ValidationStatusValue;
-        item.ConvertToVehicleInput_Status = data.ConvertToVehicleInputStatusValue;
+        item.ValidationStatus = data.ValidationStatusValue;
+        item.ConvertToVehicleInputStatus = data.ConvertToVehicleInputStatusValue;
 
         var count = ctx.DbContext.SaveChanges();
 

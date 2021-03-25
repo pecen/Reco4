@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Reco4.DalEF.Entities {
   public class RoadmapGroup {
@@ -10,7 +11,9 @@ namespace Reco4.DalEF.Entities {
     public int StartYear { get; set; }
     public int EndYear { get; set; }
     public string Xml { get; set; }
-    public int Validation_Status { get; set; }
-    public int ConvertToVehicleInput_Status { get; set; }
+		[Column("Validation_Status")]
+    public int ValidationStatus { get; set; }
+		[Column("ConvertToVehicleInput_Status")]
+    public int ConvertToVehicleInputStatus { get; set; }
   }
 }

@@ -9,246 +9,295 @@ using Reco4.UI.Module.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 
 namespace Reco4.UI.Module.ViewModels {
-  public class RoadmapGroupsViewModel : ViewModelBase {
-    private readonly EventAggregator _eventAggregator;
-    private readonly IFilteredListService _filteredListService;
+	public class RoadmapGroupsViewModel : ViewModelBase {
+		private readonly EventAggregator _eventAggregator;
+		private readonly IFilteredListService _filteredListService;
+		private readonly IXmlProviderService _xmlProviderService;
 
-    public DelegateCommand DeleteRoadmapGroupsCommand { get; set; }
-    public DelegateCommand CopyGridRowCommand { get; set; }
+		private readonly string xmlHeader = @"<?xml version=""1.0"" encoding=""utf-8""?>";
 
-    #region Properties
+		#region Properties
 
-    //private bool _isChecked;
-    //public bool IsChecked {
-    //  get => _isChecked;
-    //  set {
-    //    //if (value == _isChecked) return;
-    //    //_isChecked = value;
-    //    //OnPropertyChanged(nameof(IsChecked));
-    //    SetProperty(ref _isChecked, value);
-    //  }
-    //}
+		public DelegateCommand DeleteRoadmapGroupsCommand { get; set; }
+		public DelegateCommand CopyGridRowCommand { get; set; }
+		public DelegateCommand<string> ViewXmlCommand { get; set; }
+		public DelegateCommand SearchCommand { get; set; }
+		public DelegateCommand CheckDeleteCommand { get; set; }
 
-    private bool _hasCheckedItem;
-    private bool HasCheckedItem {
-      get => _hasCheckedItem;
-      set { SetProperty(ref _hasCheckedItem, value); }
-    }
+		//private bool _isChecked;
+		//public bool IsChecked {
+		//  get => _isChecked;
+		//  set {
+		//    //if (value == _isChecked) return;
+		//    //_isChecked = value;
+		//    //OnPropertyChanged(nameof(IsChecked));
+		//    SetProperty(ref _isChecked, value);
+		//  }
+		//}
 
-    private bool? _allSelected;
-    public bool? AllSelected {
-      get => _allSelected;
-      set {
-        SetProperty(ref _allSelected, value);
+		private bool _hasCheckedItem;
+		private bool HasCheckedItem {
+			get => _hasCheckedItem;
+			set { SetProperty(ref _hasCheckedItem, value); }
+		}
 
-        // Set all other CheckBoxes
-        AllSelectedChanged();
-      }
-    }
+		// Only used with the built in GridView control, not with the Telerik one
 
-    //private RoadmapGroupList _roadmapGroups;
-    //public RoadmapGroupList RoadmapGroups {
-    //  get { return _roadmapGroups; }
-    //  set { SetProperty(ref _roadmapGroups, value); }
-    //}
+		private bool? _allSelected;
+		public bool? AllSelected {
+			get => _allSelected;
+			set {
+				SetProperty(ref _allSelected, value);
 
-    private ObservableCollection<RoadmapGroup> _roadmapGroups;
-    public ObservableCollection<RoadmapGroup> RoadmapGroups {
-      get { return _roadmapGroups; }
-      set { SetProperty(ref _roadmapGroups, value); }
-    }
+				// Set all other CheckBoxes
+				AllSelectedChanged();
+			}
+		}
 
-    private ObservableCollection<string> _columns;
-    public ObservableCollection<string> Columns {
-      get { return _columns; }
-      set { SetProperty(ref _columns, value); }
-    }
+		// Used if not RoadmapGroups below is used
 
-    private int _selectedColumns;
-    public int SelectedColumn {
-      get { return _selectedColumns; }
-      set { SetProperty(ref _selectedColumns, value); }
-    }
+		//private RoadmapGroupList _roadmapGroups;
+		//public RoadmapGroupList RoadmapGroups {
+		//	get { return _roadmapGroups; }
+		//	set { SetProperty(ref _roadmapGroups, value); }
+		//}
 
-    private string _searchText;
-    public string SearchText {
-      get { return _searchText; }
-      set { SetProperty(ref _searchText, value); }
-    }
+		private ObservableCollection<RoadmapGroup> _roadmapGroups;
+		public ObservableCollection<RoadmapGroup> RoadmapGroups {
+			get { return _roadmapGroups; }
+			set { SetProperty(ref _roadmapGroups, value); }
+		}
 
-    private ObservableCollection<string> _validationStatus;
-    public ObservableCollection<string> ValidationStatusList {
-      get { return _validationStatus; }
-      set { SetProperty(ref _validationStatus, value); }
-    }
+		private ObservableCollection<string> _columns;
+		public ObservableCollection<string> Columns {
+			get { return _columns; }
+			set { SetProperty(ref _columns, value); }
+		}
 
-    private int _selectedValidationStatus;
-    public int SelectedValidationStatus {
-      get { return _selectedValidationStatus; }
-      set { SetProperty(ref _selectedValidationStatus, value); }
-    }
+		private int _selectedColumns;
+		public int SelectedColumn {
+			get { return _selectedColumns; }
+			set { SetProperty(ref _selectedColumns, value); }
+		}
 
-    private ObservableCollection<string> _convertToVehicleStatus;
-    public ObservableCollection<string> ConvertToVehicleStatusList {
-      get { return _convertToVehicleStatus; }
-      set { SetProperty(ref _convertToVehicleStatus, value); }
-    }
+		private string _searchText;
+		public string SearchText {
+			get { return _searchText; }
+			set { SetProperty(ref _searchText, value); }
+		}
 
-    private int _selectedConvertToVehicleStatus;
-    public int SelectedConvertToVehicleStatus {
-      get { return _selectedConvertToVehicleStatus; }
-      set { SetProperty(ref _selectedConvertToVehicleStatus, value); }
-    }
+		private ObservableCollection<string> _validationStatus;
+		public ObservableCollection<string> ValidationStatusList {
+			get { return _validationStatus; }
+			set { SetProperty(ref _validationStatus, value); }
+		}
 
-    #endregion
+		private int _selectedValidationStatus;
+		public int SelectedValidationStatus {
+			get { return _selectedValidationStatus; }
+			set { SetProperty(ref _selectedValidationStatus, value); }
+		}
 
-    public RoadmapGroupsViewModel(EventAggregator eventAggregator, IFilteredListService filteredListService) {
-      _eventAggregator = eventAggregator;
-      _filteredListService = filteredListService;
+		private ObservableCollection<string> _convertToVehicleStatus;
+		public ObservableCollection<string> ConvertToVehicleStatusList {
+			get { return _convertToVehicleStatus; }
+			set { SetProperty(ref _convertToVehicleStatus, value); }
+		}
 
-      Title = Titles.RoadmapGroups.GetDescription();
+		private int _selectedConvertToVehicleStatus;
+		public int SelectedConvertToVehicleStatus {
+			get { return _selectedConvertToVehicleStatus; }
+			set { SetProperty(ref _selectedConvertToVehicleStatus, value); }
+		}
 
-      Columns = new ObservableCollection<string>();
-      ValidationStatusList = new ObservableCollection<string>();
-      ConvertToVehicleStatusList = new ObservableCollection<string>();
+		#endregion
 
-      Columns.GetEnumValues<FilterableRoadmapGroupColumns>();
-      ValidationStatusList.GetEnumValues<ValidationStatus>();
-      ConvertToVehicleStatusList.GetEnumValues<ConvertToVehicleStatus>();
+		public RoadmapGroupsViewModel(EventAggregator eventAggregator, IFilteredListService filteredListService, IXmlProviderService xmlProviderService) {
+			_eventAggregator = eventAggregator;
+			_filteredListService = filteredListService;
+			_xmlProviderService = xmlProviderService;
 
-      SelectedColumn = 0;
-      SelectedValidationStatus = -1;
-      SelectedConvertToVehicleStatus = -1;
-      SearchText = string.Empty;
-      HasCheckedItem = false;
+			Title = Titles.RoadmapGroups.GetDescription();
 
-      _allSelected = false;
+			Columns = new ObservableCollection<string>();
+			ValidationStatusList = new ObservableCollection<string>();
+			ConvertToVehicleStatusList = new ObservableCollection<string>();
 
-      DeleteRoadmapGroupsCommand = new DelegateCommand(Execute, CanExecute)
-        .ObservesProperty(() => HasCheckedItem);
-      CopyGridRowCommand = new DelegateCommand(CopyGridRow);
+			Columns.GetEnumValues<FilterableRoadmapGroupColumns>();
+			ValidationStatusList.GetEnumValues<ValidationStatus>();
+			ConvertToVehicleStatusList.GetEnumValues<ConvertToVehicleStatus>();
 
-      _eventAggregator.GetEvent<GetRoadmapGroupsCommand>().Subscribe(RoadmapGroupsReceived);
-      _eventAggregator.GetEvent<GetRoadmapGroupsCommand>().Publish(RoadmapGroupList.GetRoadmapGroups());
-    }
+			SelectedColumn = 0;
+			SelectedValidationStatus = -1;
+			SelectedConvertToVehicleStatus = -1;
+			SearchText = string.Empty;
+			HasCheckedItem = false;
 
-    private void CopyGridRow() {
-      throw new NotImplementedException();
-    }
+			// Only used with the built in GridView control, not with the Telerik one
+			_allSelected = false;
 
-    private void RoadmapGroupsReceived(RoadmapGroupList obj) {
-      RoadmapGroups = new ObservableCollection<RoadmapGroup>();
+			DeleteRoadmapGroupsCommand = new DelegateCommand(Execute, CanExecute)
+					.ObservesProperty(() => HasCheckedItem);
+			CopyGridRowCommand = new DelegateCommand(CopyGridRow);
+			ViewXmlCommand = new DelegateCommand<string>(HyperlinkClicked);
+			SearchCommand = new DelegateCommand(GetFilteredRoadmapGroupList);
+			CheckDeleteCommand = new DelegateCommand(CheckAllSelected, CanExecute);
 
-      foreach (var item in obj) {
-        item.PropertyChanged += RoadmapGroupOnPropertyChanged;
+			_eventAggregator.GetEvent<GetRoadmapGroupsCommand>().Subscribe(RoadmapGroupsReceived);
+			_eventAggregator.GetEvent<GetRoadmapGroupsCommand>().Publish(RoadmapGroupList.GetRoadmapGroups());
+		}
 
-        RoadmapGroups.Add(new RoadmapGroup {
-          IsChecked = false,
-          RoadmapGroupInfo = item
-        });
+		private void CheckAllSelected() {
+			// Does nothing. Just for enabling/disabling Delete button
+			//foreach(var item in RoadmapGroups) {
 
-        RoadmapGroups.Last().PropertyChanged += RoadmapGroupOnPropertyChanged;
-      }
+			//}
+		}
 
-      RaisePropertyChanged(nameof(RoadmapGroups));
-    }
+		private void GetFilteredRoadmapGroupList() {
+			throw new NotImplementedException();
+		}
 
-    private bool CanExecute() {
-      return RoadmapGroups != null
-          && RoadmapGroups.Any(c => c.IsChecked);
-    }
+		private void HyperlinkClicked(string xml) {
+			if (!xml.StartsWith("<?xml")) {
+				xml = xmlHeader + xml;
+			}
 
-    private void Execute() {
-      var count = RoadmapGroups.Where(c => c.IsChecked).Count();
+			var ms = new MemoryStream();
 
-      if (MessageBox.Show($"Are you sure you want to delete {(count > 1 ? "these Roadmap Groups" : "this Roadmap Group")}?",
-        "Delete Component?",
-        MessageBoxButton.YesNo,
-        MessageBoxImage.Warning) == MessageBoxResult.Yes) {
+			using (StreamWriter writer = new StreamWriter(ms)) {
+				writer.Write(xml);
+				writer.Flush();
+				ms.Position = 0;
 
-        foreach (var item in RoadmapGroups) {
-          if (item.IsChecked) {
-            RoadmapGroupEdit.DeleteRoadmapGroup(item.RoadmapGroupInfo.RoadmapGroupId);
-          }
-        }
+				_xmlProviderService.XmlViewService(ms);
+			}
+		}
 
-        ClearFields();
-      }
-    }
+		private void CopyGridRow() {
+			throw new NotImplementedException();
+		}
 
-    #region Row Select Checkbox handling
+		private void RoadmapGroupsReceived(RoadmapGroupList obj) {
+			RoadmapGroups = new ObservableCollection<RoadmapGroup>();
 
-    private void RoadmapGroupOnPropertyChanged(object sender, PropertyChangedEventArgs args) {
-      // Only re-check if the IsChecked property changed
-      if (args.PropertyName == nameof(RoadmapGroup.IsChecked)) {
-        RecheckAllSelected();
-      }
-    }
+			foreach (var item in obj) {
+				// Only used with the built in GridView control, not with the Telerik one
+				item.PropertyChanged += RoadmapGroupOnPropertyChanged;
 
-    private void RecheckAllSelected() {
-      // Has this change been caused by some other change?
-      // return so we don't mess things up
-      if (_allSelectedChanging) return;
+				RoadmapGroups.Add(new RoadmapGroup {
+					IsChecked = false,
+					RoadmapGroupInfo = item
+				});
 
-      try {
-        _allSelectedChanging = true;
+				// Only used with the built in GridView control, not with the Telerik one
+				RoadmapGroups.Last().PropertyChanged += RoadmapGroupOnPropertyChanged;
+			}
 
-        if (RoadmapGroups.All(e => e.IsChecked)) {
-          AllSelected = true;
-          HasCheckedItem = true;
-        }
-        else if (RoadmapGroups.All(e => !e.IsChecked)) {
-          AllSelected = false;
-          HasCheckedItem = false;
-        }
-        else {
-          AllSelected = null;
-          HasCheckedItem = true;
-        }
-      }
-      finally {
-        _allSelectedChanging = false;
-      }
-    }
+			RaisePropertyChanged(nameof(RoadmapGroups));
+		}
 
-    private bool _allSelectedChanging;
-    private void AllSelectedChanged() {
-      // Has this change been caused by some other change?
-      // return so we don't mess things up
-      if (_allSelectedChanging) return;
+		private bool CanExecute() {
+			return RoadmapGroups != null
+					&& RoadmapGroups.Any(c => c.IsChecked);
+		}
 
-      try {
-        _allSelectedChanging = true;
+		private void Execute() {
+			var count = RoadmapGroups.Where(c => c.IsChecked).Count();
 
-        // this can of course be simplified
-        if (AllSelected == true) {
-          foreach (var component in RoadmapGroups) {
-            component.IsChecked = true;
-          }
-          HasCheckedItem = true;
-        }
-        else if (AllSelected == false) {
-          foreach (var component in RoadmapGroups) {
-            component.IsChecked = false;
-          }
-          HasCheckedItem = false;
-        }
-      }
-      finally {
-        _allSelectedChanging = false;
-      }
-    }
+			if (MessageBox.Show($"Are you sure you want to delete {(count > 1 ? "these Roadmap Groups" : "this Roadmap Group")}?",
+				"Delete Component?",
+				MessageBoxButton.YesNo,
+				MessageBoxImage.Warning) == MessageBoxResult.Yes) {
 
-    #endregion
+				foreach (var item in RoadmapGroups) {
+					if (item.IsChecked) {
+						RoadmapGroupEdit.DeleteRoadmapGroup(item.RoadmapGroupInfo.RoadmapGroupId);
+					}
+				}
 
-    private void ClearFields() {
-      AllSelected = false;
-      //SearchText = string.Empty;
-      //SelectedValidationStatus = SelectedConvertToVehicleStatus = -1;
-    }
-  }
+				ClearFields();
+			}
+		}
+
+		#region Row Select Checkbox handling
+
+		// Only used with the built in GridView control, not with the Telerik one
+
+		private void RoadmapGroupOnPropertyChanged(object sender, PropertyChangedEventArgs args) {
+			// Only re-check if the IsChecked property changed
+			if (args.PropertyName == nameof(RoadmapGroup.IsChecked)) {
+				RecheckAllSelected();
+			}
+		}
+
+		private void RecheckAllSelected() {
+			// Has this change been caused by some other change?
+			// return so we don't mess things up
+			if (_allSelectedChanging) return;
+
+			try {
+				_allSelectedChanging = true;
+
+				if (RoadmapGroups.All(e => e.IsChecked)) {
+					AllSelected = true;
+					HasCheckedItem = true;
+				}
+				else if (RoadmapGroups.All(e => !e.IsChecked)) {
+					AllSelected = false;
+					HasCheckedItem = false;
+				}
+				else {
+					AllSelected = null;
+					HasCheckedItem = true;
+				}
+			}
+			finally {
+				_allSelectedChanging = false;
+			}
+		}
+
+		private bool _allSelectedChanging;
+		private void AllSelectedChanged() {
+			// Has this change been caused by some other change?
+			// return so we don't mess things up
+			if (_allSelectedChanging) return;
+
+			try {
+				_allSelectedChanging = true;
+
+				// this can of course be simplified
+				if (AllSelected == true) {
+					foreach (var component in RoadmapGroups) {
+						component.IsChecked = true;
+					}
+					HasCheckedItem = true;
+				}
+				else if (AllSelected == false) {
+					foreach (var component in RoadmapGroups) {
+						component.IsChecked = false;
+					}
+					HasCheckedItem = false;
+				}
+			}
+			finally {
+				_allSelectedChanging = false;
+			}
+		}
+
+		#endregion
+
+		private void ClearFields() {
+			// Only used with the built in GridView control, not with the Telerik one
+			//AllSelected = false;
+
+			//SearchText = string.Empty;
+			//SelectedValidationStatus = SelectedConvertToVehicleStatus = -1;
+		}
+	}
 }
