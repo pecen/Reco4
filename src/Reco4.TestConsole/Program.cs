@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+﻿using Wpf = Microsoft.Win32;
 using Reco4.Library;
 using Reco4.Library.Enum;
 using System;
@@ -404,7 +404,7 @@ namespace Reco4.TestConsole {
     }
 
     private static Stream GetFileDialog(string suffix) {
-      Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog {
+      Wpf.OpenFileDialog openFileDialog = new Wpf.OpenFileDialog {
         //InitialDirectory = Environment.CurrentDirectory,
         Filter = $"{char.ToUpper(suffix[0]) + suffix.Substring(1)} files (*.{suffix})|*.{suffix}|All files (*.*)|*.*",
         FilterIndex = 1,
