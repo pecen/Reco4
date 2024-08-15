@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Csla" Version="5.0.1" />
+    <PackageReference Include="Csla" Version="5.5.4" />
     <PackageReference Include="EntityFramework" Version="6.4.0" />
   </ItemGroup>
 
