@@ -12,7 +12,6 @@
   xmlns:localBehaviors="clr-namespace:Reco4.UI.Module.Behaviors"
   xmlns:prism="http://prismlibrary.com/"
   xmlns:properties="clr-namespace:Reco4.UI.Module.Properties"
-  xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
   xmlns:views="clr-namespace:Reco4.UI.Module.Views"
   prism:ViewModelLocator.AutoWireViewModel="True">
   <UserControl.Resources>
@@ -152,7 +151,7 @@
       </DataGrid.Columns>
     </DataGrid>-->
 
-    <telerik:RadGridView
+    <DataGrid
       x:Name="radRoadmapGroupGrid"
       Grid.Row="1"
       attachedReco4:RadGridViewCopyOptions.Command="{x:Static commandsReco4:GridCommands.CopySelectedGridRowsCommand}"
@@ -163,7 +162,7 @@
       ItemsSource="{Binding RoadmapGroups, UpdateSourceTrigger=PropertyChanged}"
       SelectionMode="Extended">
 
-      <!--<telerik:RadGridView
+      <!--<RadGridView
       x:Name="radRoadmapGroupGrid"
       Grid.Row="1"
       AutoGenerateColumns="False"
@@ -173,31 +172,31 @@
       ItemsSource="{Binding RoadmapGroups, UpdateSourceTrigger=PropertyChanged}"
       SelectionMode="Extended">-->
 
-      <telerik:RadContextMenu.ContextMenu>
-        <telerik:RadContextMenu x:Name="radContextMenu">
-          <telerik:RadMenuItem Header="{x:Static properties:RoadmapGroups.Copy}">
-            <!--<telerik:RadMenuItem.Icon>
+      <ContextMenu.ContextMenu>
+        <ContextMenu x:Name="radContextMenu">
+          <MenuItem Header="{x:Static properties:RoadmapGroups.Copy}">
+            <!--<RadMenuItem.Icon>
               <frameworkControls:IconDisplayer HorizontalAlignment="Center" Icon="{x:Static commonIcons:StandardIcons.Copy}" />
-            </telerik:RadMenuItem.Icon>-->
-            <telerik:RadMenuItem Command="{x:Static commandsReco4:GridCommands.CopySelectedRowsCommand}" Header="{x:Static properties:RoadmapGroups.SelectedRowOpenBracketCloseBracket}">
+            <MenuItem.Icon>-->
+            <RadMenuItem Command="{x:Static commandsReco4:GridCommands.CopySelectedRowsCommand}" Header="{x:Static properties:RoadmapGroups.SelectedRowOpenBracketCloseBracket}">
               <behaviors:Interaction.Behaviors>
                 <localBehaviors:SetSelectedRowsToCommandParameterBehavior />
               </behaviors:Interaction.Behaviors>
-            </telerik:RadMenuItem>
-            <telerik:RadMenuItem Command="{x:Static commandsReco4:StandardCommands.CopyToClipboardCommand}" Header="{x:Static properties:RoadmapGroups.CellText}">
+            <MenuItem>
+            <RadMenuItem Command="{x:Static commandsReco4:StandardCommands.CopyToClipboardCommand}" Header="{x:Static properties:RoadmapGroups.CellText}">
               <behaviors:Interaction.Behaviors>
                 <localBehaviors:SetCellValueToCommandParameterBehavior />
               </behaviors:Interaction.Behaviors>
-            </telerik:RadMenuItem>
-          </telerik:RadMenuItem>
-        </telerik:RadContextMenu>
-      </telerik:RadContextMenu.ContextMenu>
+            <MenuItem>
+					</MenuItem>
+				</ContextMenu>
+			</ContextMenu.ContextMenu>
 
-			<telerik:RadGridView.RowStyle>
-				<Style TargetType="telerik:GridViewRow">
+			<Grid.RowStyle>
+				<Style TargetType="GridViewRow">
 					<Setter Property="IsSelected" Value="{Binding IsChecked, Mode=TwoWay}" />
 				</Style>
-			</telerik:RadGridView.RowStyle>
+			<Grid.RowStyle>
 
 			<behaviors:Interaction.Triggers>
 				<behaviors:EventTrigger EventName="SelectionChanged">
@@ -205,87 +204,87 @@
 				</behaviors:EventTrigger>
 			</behaviors:Interaction.Triggers>
 
-      <telerik:RadGridView.Columns>
-        <telerik:GridViewSelectColumn />
-        <telerik:GridViewDataColumn
+      <RadGridView.Columns>
+        <GridViewSelectColumn />
+        <GridViewDataColumn
           DataMemberBinding="{Binding RoadmapGroupInfo.RoadmapGroupId}"
           IsFilteringDeferred="True"
           IsReadOnly="True"
           ShowFieldFilters="False"
           UniqueName="RoadmapGroupId">
-          <telerik:GridViewDataColumn.Header>
+          <GridViewDataColumn.Header>
             <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.RoadmapGroupId}" />
-          </telerik:GridViewDataColumn.Header>
-        </telerik:GridViewDataColumn>
-        <telerik:GridViewDataColumn
+          </GridViewDataColumn.Header>
+        </GridViewDataColumn>
+        <GridViewDataColumn
           DataMemberBinding="{Binding RoadmapGroupInfo.OwnerSSS}"
           IsFilteringDeferred="True"
           IsReadOnly="True"
           ShowFieldFilters="False"
           UniqueName="OwnerSSS">
-          <telerik:GridViewDataColumn.Header>
+          <GridViewDataColumn.Header>
             <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.OwnerSSS}" />
-          </telerik:GridViewDataColumn.Header>
-        </telerik:GridViewDataColumn>
-        <telerik:GridViewDataColumn
+          </GridViewDataColumn.Header>
+        </GridViewDataColumn>
+        <GridViewDataColumn
           DataMemberBinding="{Binding RoadmapGroupInfo.RoadmapName}"
           IsFilteringDeferred="True"
           IsReadOnly="True"
           ShowFieldFilters="False"
           UniqueName="RoadmapName">
-          <telerik:GridViewDataColumn.Header>
+          <GridViewDataColumn.Header>
             <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.RoadmapName}" />
-          </telerik:GridViewDataColumn.Header>
-        </telerik:GridViewDataColumn>
-        <telerik:GridViewDataColumn
+          </GridViewDataColumn.Header>
+        </GridViewDataColumn>
+        <GridViewDataColumn
           DataMemberBinding="{Binding RoadmapGroupInfo.Protected}"
           IsFilteringDeferred="True"
           IsReadOnly="True"
           ShowFieldFilters="False"
           UniqueName="Protected">
-          <telerik:GridViewDataColumn.Header>
+          <GridViewDataColumn.Header>
             <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.Protected}" />
-          </telerik:GridViewDataColumn.Header>
-        </telerik:GridViewDataColumn>
-        <telerik:GridViewDataColumn
+          </GridViewDataColumn.Header>
+        </GridViewDataColumn>
+        <GridViewDataColumn
           DataMemberBinding="{Binding RoadmapGroupInfo.CreationTime}"
           IsFilteringDeferred="True"
           IsReadOnly="True"
           ShowFieldFilters="False"
           UniqueName="CreationTime">
-          <telerik:GridViewDataColumn.Header>
+          <GridViewDataColumn.Header>
             <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.CreationTime}" />
-          </telerik:GridViewDataColumn.Header>
-        </telerik:GridViewDataColumn>
-        <telerik:GridViewDataColumn
+          </GridViewDataColumn.Header>
+        </GridViewDataColumn>
+        <GridViewDataColumn
           DataMemberBinding="{Binding RoadmapGroupInfo.ValidationStatus, Converter={StaticResource StatusIntToStringConverter}, ConverterParameter={x:Type enums:ValidationStatus}}"
           IsFilteringDeferred="True"
           IsReadOnly="True"
           ShowFieldFilters="False"
           UniqueName="ValidationStatus">
-          <telerik:GridViewDataColumn.Header>
+          <GridViewDataColumn.Header>
             <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.ValidationStatus}" />
-          </telerik:GridViewDataColumn.Header>
-        </telerik:GridViewDataColumn>
-        <telerik:GridViewDataColumn
+          </GridViewDataColumn.Header>
+        </GridViewDataColumn>
+        <GridViewDataColumn
           DataMemberBinding="{Binding RoadmapGroupInfo.ConvertToVehicleInputStatus, Converter={StaticResource StatusIntToStringConverter}, ConverterParameter={x:Type enums:ConvertToVehicleStatus}}"
           IsFilteringDeferred="True"
           IsReadOnly="True"
           ShowFieldFilters="False"
           UniqueName="ConvertToVehicleInputStatus">
-          <telerik:GridViewDataColumn.Header>
+          <GridViewDataColumn.Header>
             <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.ConvertToVehicleInputStatus}" />
-          </telerik:GridViewDataColumn.Header>
-        </telerik:GridViewDataColumn>
-        <telerik:GridViewDataColumn
+          </GridViewDataColumn.Header>
+        </GridViewDataColumn>
+        <GridViewDataColumn
           IsFilteringDeferred="True"
           IsReadOnly="True"
           ShowFieldFilters="False"
           UniqueName="ConvertToVehicleInputStatus">
-          <telerik:GridViewDataColumn.Header>
+          <GridViewDataColumn.Header>
             <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.Xml}" />
-          </telerik:GridViewDataColumn.Header>
-          <telerik:GridViewDataColumn.CellTemplate>
+          </GridViewDataColumn.Header>
+          <GridViewDataColumn.CellTemplate>
             <DataTemplate>
               <TextBlock>
                 <Hyperlink Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=views:RoadmapGroups}, Path=DataContext.ViewXmlCommand}" CommandParameter="{Binding RoadmapGroupInfo.Xml}">
@@ -293,36 +292,36 @@
                 </Hyperlink>
               </TextBlock>
             </DataTemplate>
-          </telerik:GridViewDataColumn.CellTemplate>
-        </telerik:GridViewDataColumn>
-        <!--<telerik:GridViewHyperlinkColumn
+          </GridViewDataColumn.CellTemplate>
+        </GridViewDataColumn>
+        <!--<GridViewHyperlinkColumn
           MaxWidth="400"
           IsFilteringDeferred="True"
           IsReadOnly="True"
           ShowFieldFilters="False"
           UniqueName="Xml">
-          <telerik:GridViewHyperlinkColumn.Header>
+          <GridViewHyperlinkColumn.Header>
             <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.Xml}" />
-          </telerik:GridViewHyperlinkColumn.Header>
-          <telerik:GridViewHyperlinkColumn.CellTemplate>
+          </GridViewHyperlinkColumn.Header>
+          <GridViewHyperlinkColumn.CellTemplate>
             <DataTemplate>
               <TextBlock Text="{Binding RoadmapGroupInfo.Xml, Converter={StaticResource XmlToFixedLengthConverter}}" />
             </DataTemplate>
-          </telerik:GridViewHyperlinkColumn.CellTemplate>
-        </telerik:GridViewHyperlinkColumn>-->
-        <!--<telerik:GridViewHyperlinkColumn
+          </GridViewHyperlinkColumn.CellTemplate>
+        </GridViewHyperlinkColumn>-->
+        <!--<GridViewHyperlinkColumn
           MaxWidth="400"
           DataMemberBinding="{Binding RoadmapGroupInfo.Xml, Converter={StaticResource XmlToFixedLengthConverter}}"
           IsFilteringDeferred="True"
           IsReadOnly="True"
           ShowFieldFilters="False"
           UniqueName="Xml">
-          <telerik:GridViewHyperlinkColumn.Header>
+          <GridViewHyperlinkColumn.Header>
             <TextBlock Style="{StaticResource HeaderTextStyle}" Text="{x:Static properties:RoadmapGroups.Xml}" />
-          </telerik:GridViewHyperlinkColumn.Header>
-        </telerik:GridViewHyperlinkColumn>-->
-      </telerik:RadGridView.Columns>
-    </telerik:RadGridView>
+          </GridViewHyperlinkColumn.Header>
+        </GridViewHyperlinkColumn>-->
+      <GridView.Columns>
+    <GridView>
 
     <!--<DataGrid
       x:Name="roadmapGroupGrid"

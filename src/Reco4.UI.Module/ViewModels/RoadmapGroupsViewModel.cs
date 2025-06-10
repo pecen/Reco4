@@ -15,19 +15,23 @@ using System.Windows;
 
 namespace Reco4.UI.Module.ViewModels {
 	public class RoadmapGroupsViewModel : ViewModelBase {
-		private readonly EventAggregator _eventAggregator;
+		private readonly IEventAggregator _eventAggregator;
 		private readonly IFilteredListService _filteredListService;
 		private readonly IXmlProviderService _xmlProviderService;
 
 		private readonly string xmlHeader = @"<?xml version=""1.0"" encoding=""utf-8""?>";
 
-		#region Properties
+		#region Commands
 
 		public DelegateCommand DeleteRoadmapGroupsCommand { get; set; }
 		public DelegateCommand CopyGridRowCommand { get; set; }
 		public DelegateCommand<string> ViewXmlCommand { get; set; }
 		public DelegateCommand SearchCommand { get; set; }
 		public DelegateCommand CheckDeleteCommand { get; set; }
+
+		#endregion
+
+		#region Properties
 
 		//private bool _isChecked;
 		//public bool IsChecked {
@@ -117,7 +121,7 @@ namespace Reco4.UI.Module.ViewModels {
 
 		#endregion
 
-		public RoadmapGroupsViewModel(EventAggregator eventAggregator, IFilteredListService filteredListService, IXmlProviderService xmlProviderService) {
+		public RoadmapGroupsViewModel(IEventAggregator eventAggregator, IFilteredListService filteredListService, IXmlProviderService xmlProviderService) {
 			_eventAggregator = eventAggregator;
 			_filteredListService = filteredListService;
 			_xmlProviderService = xmlProviderService;
